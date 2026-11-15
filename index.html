@@ -1,0 +1,1147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aaditya Lahori Blueprint</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: the page is a set of five drawing sheets inside a fixed border and title block.
+   Palette follows 60-30-10: blueprint blue field, chalk linework, one orange accent (blue's complement). */
+:root {
+  --sheet: #1638a8;
+  --line: #eaf0ff;
+  --line-2: rgba(234, 240, 255, 0.64);
+  --line-3: rgba(234, 240, 255, 0.28);
+  --grid: rgba(234, 240, 255, 0.06);
+  --grid-2: rgba(234, 240, 255, 0.13);
+  --acc: #ff7a33;
+  --on-acc: #0b1e63;
+  --f-d: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+  --f-b: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-m: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --pad: clamp(1.5rem, 5vw, 4.5rem);
+  color-scheme: dark;
+}
+:root[data-paper="white"] {
+  --sheet: #eef1f6;
+  --line: #1638a8;
+  --line-2: rgba(22, 56, 168, 0.74);
+  --line-3: rgba(22, 56, 168, 0.3);
+  --grid: rgba(22, 56, 168, 0.06);
+  --grid-2: rgba(22, 56, 168, 0.14);
+  --acc: #d9480f;
+  --on-acc: #ffffff;
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; overflow-x: hidden;
+  background-color: var(--sheet);
+  background-image:
+    linear-gradient(var(--grid-2) 1px, transparent 1px), linear-gradient(90deg, var(--grid-2) 1px, transparent 1px),
+    linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  color: var(--line);
+  font-family: var(--f-b); font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem); line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.5s, color 0.5s;
+}
+body.is-plotting { overflow: hidden; }
+h1, h2, h3, p, ol, ul, dl, dd { margin: 0; }
+ol, ul { padding: 0; list-style: none; }
+a { color: inherit; }
+button { font: inherit; color: inherit; cursor: pointer; }
+::selection { background: var(--acc); color: var(--on-acc); }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; }
+.mono { font-family: var(--f-m); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; }
+
+/* fixed drawing furniture */
+#gl { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; display: block; }
+.frame { position: fixed; inset: 8px; z-index: 40; pointer-events: none; border: 1px solid var(--line-2); }
+.frame::before { content: ""; position: absolute; inset: 4px; border: 1px solid var(--line-3); }
+.co { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+.co span {
+  position: absolute; left: 0; top: 0; opacity: 0; white-space: nowrap;
+  font: 500 0.66rem/1 var(--f-m); letter-spacing: 0.12em; color: var(--line);
+}
+.co:not(.is-wide) span { padding: 3px 6px; background: var(--sheet); text-align: center; }
+.co span b { display: block; font-weight: 500; }
+.co span i { display: block; margin-top: 4px; font-style: normal; font-size: 0.58rem; letter-spacing: 0.05em; color: var(--line-2); }
+.co.is-wide span { padding-left: 54px; }
+.co.is-wide span::before { content: ""; position: absolute; left: 4px; top: 50%; width: 42px; height: 1px; background: var(--acc); }
+.co.is-wide span::after { content: ""; position: absolute; left: 1px; top: 50%; width: 5px; height: 5px; margin-top: -2px; border-radius: 50%; background: var(--acc); }
+
+.bar {
+  position: fixed; top: 13px; left: 13px; right: 13px; z-index: 45;
+  display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+  padding: 0.5rem clamp(0.6rem, 2vw, 1.2rem);
+  background: color-mix(in srgb, var(--sheet) 90%, transparent);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line-3);
+}
+.bar__id { font: 700 1.25rem/1 var(--f-d); letter-spacing: 0.04em; text-decoration: none; }
+.bar__id b { color: var(--acc); font-weight: inherit; }
+.bar nav { display: flex; gap: clamp(0.6rem, 2.4vw, 1.75rem); }
+.bar nav a { text-decoration: none; padding: 0.35rem 0; border-bottom: 1px solid transparent; font-size: 0.66rem; letter-spacing: 0.1em; }
+.bar nav a.is-on { border-color: var(--acc); color: var(--acc); }
+.bar__paper { width: 1.9rem; height: 1.9rem; flex: none; display: grid; place-items: center; background: none; border: 1px solid var(--line-2); border-radius: 50%; padding: 0; }
+.bar__paper i { width: 0.8rem; height: 0.8rem; border-radius: 50%; border: 1px solid var(--line); background: linear-gradient(90deg, var(--line) 50%, transparent 50%); }
+
+.tb {
+  position: fixed; right: 13px; bottom: 13px; left: 13px; z-index: 45;
+  display: flex; border: 1px solid var(--line-2);
+  background: color-mix(in srgb, var(--sheet) 93%, transparent);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.tb div { flex: 1; min-width: 0; padding: 0.35rem 0.6rem; border-left: 1px solid var(--line-3); }
+.tb div:first-child { border-left: 0; }
+.tb dt { font: 400 0.52rem/1.2 var(--f-m); letter-spacing: 0.14em; color: var(--line-2); }
+.tb dd { font: 600 0.95rem/1.15 var(--f-d); letter-spacing: 0.06em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+@media (min-width: 760px) { .tb { left: auto; width: min(44rem, 60vw); } }
+@media (max-width: 759px) { .tb .opt { display: none; } }
+
+/* loader + sheet-change wipe */
+.plot { position: fixed; inset: 0; z-index: 100; display: grid; place-content: center; justify-items: center; gap: 0.9rem; background: var(--sheet); }
+.plot__bar { width: min(15rem, 60vw); height: 1px; background: var(--line-3); }
+.plot__bar i { display: block; height: 3px; margin-top: -1px; background: var(--acc); transform: scaleX(0); transform-origin: 0 50%; }
+.wipe {
+  position: fixed; inset: 0; z-index: 90; pointer-events: none; display: grid; place-content: center; justify-items: center;
+  background: var(--line); color: var(--sheet); transform: translateX(-101%);
+  font: 700 clamp(3.5rem, 16vw, 11rem)/0.85 var(--f-d); text-transform: uppercase;
+}
+.wipe small { font: 500 0.75rem var(--f-m); letter-spacing: 0.2em; margin-bottom: 0.8rem; }
+
+/* shared */
+main { position: relative; z-index: 2; }
+.sheet { position: relative; padding: clamp(5.5rem, 14vh, 9rem) var(--pad) clamp(6rem, 15vh, 9.5rem); }
+.sh { display: flex; align-items: flex-end; gap: clamp(0.7rem, 2vw, 1.25rem); margin-bottom: clamp(2rem, 6vh, 4rem); }
+.sh__no { flex: none; width: 2.7rem; height: 2.7rem; display: grid; place-items: center; border: 1px solid var(--acc); border-radius: 50%; color: var(--acc); font: 500 0.8rem var(--f-m); margin-bottom: 0.35rem; }
+.sh h2 { overflow: hidden; font: 700 clamp(3.2rem, 13vw, 8.5rem)/0.84 var(--f-d); text-transform: uppercase; letter-spacing: 0; }
+.sh h2 span { display: block; }
+.sh__rule { flex: 1; height: 1px; margin-bottom: 0.5rem; background: var(--line-3); transform-origin: 0 50%; }
+.panel { background: color-mix(in srgb, var(--sheet) 84%, transparent); border: 1px solid var(--line-2); }
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.chips li { padding: 0.25rem 0.6rem; border: 1px solid var(--line-3); font: 400 0.72rem/1.4 var(--f-m); white-space: nowrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.8rem 1.15rem;
+  border: 1px solid var(--line); background: transparent; color: var(--line); text-decoration: none;
+  font: 500 0.74rem/1 var(--f-m); letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap;
+  transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+}
+.btn:hover { background: var(--line); color: var(--sheet); }
+.btn--acc { background: var(--acc); border-color: var(--acc); color: var(--on-acc); }
+.btn--acc:hover { background: var(--line); border-color: var(--line); color: var(--sheet); }
+
+.dim { display: flex; align-items: center; gap: 0.8rem; color: var(--line-2); }
+.dim i { position: relative; flex: 1; height: 1px; background: currentColor; }
+.dim i::before { content: ""; position: absolute; top: -7px; width: 1px; height: 15px; background: currentColor; }
+.dim i::after { content: ""; position: absolute; top: -3.5px; border: 3.5px solid transparent; }
+.dim i:first-child::before { left: 0; }
+.dim i:first-child::after { left: 1px; border-left: 0; border-right: 8px solid currentColor; }
+.dim i:last-child::before { right: 0; }
+.dim i:last-child::after { right: 1px; border-right: 0; border-left: 8px solid currentColor; }
+.dim span { color: var(--acc); }
+
+/* 01 cover: tall section, sticky stage, the model explodes while it is pinned */
+.cover { position: relative; height: 240vh; height: 240svh; }
+.cover__stick { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 var(--pad) 5.6rem; }
+.cover__dwg { margin-bottom: 0.9rem; color: var(--line-2); }
+.nameblock { display: inline-block; align-self: flex-start; max-width: 100%; }
+.name { font: 700 clamp(4.8rem, 23vw, 15rem)/0.8 var(--f-d); text-transform: uppercase; letter-spacing: -0.005em; }
+.name span { display: block; overflow: hidden; padding-top: 0.04em; }
+.name b { display: block; font-weight: inherit; }
+.nameblock .dim { margin: 0.9rem 0 1.3rem; }
+.cover__lede { max-width: 30ch; font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.4rem); line-height: 1.35; }
+.cover__cta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.3rem; }
+.fig { position: absolute; left: var(--pad); right: var(--pad); bottom: 5.6rem; text-align: center; opacity: 0; color: var(--line-2); pointer-events: none; }
+.fig b { color: var(--acc); font-weight: 500; }
+
+/* 02 profile */
+.lead { max-width: 23em; font-size: clamp(1.45rem, 1rem + 2.5vw, 3rem); font-weight: 500; line-height: 1.16; text-wrap: balance; }
+.notes-h { margin: clamp(3rem, 9vh, 5.5rem) 0 0.8rem; color: var(--line-2); }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); counter-reset: n; }
+.notes li { counter-increment: n; padding: clamp(1.1rem, 2vw, 1.6rem); margin: -0.5px; border: 1px solid var(--line-2); }
+.notes li::before { content: "NOTE " counter(n); font: 500 0.68rem var(--f-m); letter-spacing: 0.14em; color: var(--acc); }
+.notes h3 { margin: 1.6rem 0 0.4rem; font: 600 1.7rem/1 var(--f-d); text-transform: uppercase; letter-spacing: 0.01em; }
+.notes p { color: var(--line-2); font-size: 0.98rem; }
+
+/* 03 spec: bill of materials */
+.bom__r { display: grid; grid-template-columns: 3rem minmax(7rem, 15rem) minmax(0, 1fr) 4rem; align-items: center; border-top: 1px solid var(--line-3); transition: background-color 0.25s; }
+.bom__r:first-child { border-top: 0; color: var(--line-2); }
+.bom__r > * { padding: clamp(0.7rem, 1.6vw, 1.1rem) clamp(0.6rem, 1.6vw, 1.2rem); min-width: 0; }
+.bom__r:not(:first-child):hover { background: color-mix(in srgb, var(--line) 9%, transparent); }
+.bom__n { font: 500 0.75rem var(--f-m); color: var(--acc); }
+.bom__a { font: 600 clamp(1.4rem, 3.4vw, 2.3rem)/1 var(--f-d); text-transform: uppercase; }
+@media (max-width: 640px) {
+  .bom__r { grid-template-columns: 2.6rem minmax(0, 1fr); }
+  .bom__r > :nth-child(3) { grid-column: 2; padding-top: 0; }
+  .bom__r:first-child > :nth-child(3) { display: none; }
+  .bom__r .bom__q { display: none; }
+}
+
+/* 04 details */
+.dets { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: clamp(1rem, 2vw, 1.75rem); }
+.det { display: flex; flex-direction: column; cursor: pointer; transition: translate 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s; }
+@media (hover: hover) { .det:hover { translate: 0 -6px; border-color: var(--line); } .det:hover .det__open { background: var(--line); color: var(--sheet); } }
+.det__fig { position: relative; border-bottom: 1px solid var(--line-2); }
+.det__fig svg { display: block; width: 100%; height: auto; fill: none; stroke: var(--line); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.det__fig svg .a { stroke: var(--acc); }
+.det__fig svg text { fill: var(--line-2); stroke: none; font: 500 8px var(--f-m); letter-spacing: 0.08em; }
+.det__fig svg text.a { fill: var(--acc); }
+.det__tag { position: absolute; left: 0.7rem; top: 0.7rem; display: flex; align-items: center; gap: 0.5rem; color: var(--line-2); }
+.det__tag b { width: 1.7rem; height: 1.7rem; display: grid; place-items: center; border: 1px solid var(--acc); border-radius: 50%; color: var(--acc); font-weight: 500; letter-spacing: 0; }
+.det__body { display: flex; flex-direction: column; gap: 0.7rem; flex: 1; padding: clamp(1rem, 2vw, 1.4rem); }
+.det h3 { font: 600 clamp(1.7rem, 1.3rem + 1.4vw, 2.3rem)/0.95 var(--f-d); text-transform: uppercase; }
+.det p { color: var(--line-2); font-size: 0.98rem; }
+.det p.det__k { color: var(--acc); font-size: 0.68rem; }
+.det p.det__meta { margin-top: auto; padding-top: 0.8rem; border-top: 1px solid var(--line-3); font-size: 0.62rem; }
+
+/* 05 sign-off */
+.sign h2.big { font: 700 clamp(4rem, 19vw, 13rem)/0.8 var(--f-d); text-transform: uppercase; }
+.sign h2.big span { display: block; overflow: hidden; padding-top: 0.04em; }
+.sign h2.big b { display: block; font-weight: inherit; }
+.sign h2.big .o b { color: var(--acc); }
+.sign__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: clamp(1.5rem, 4vw, 3rem); align-items: center; margin-top: clamp(2rem, 6vh, 4rem); }
+.appr > div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); align-items: center; border-top: 1px solid var(--line-3); }
+.appr > div:first-child { border-top: 0; }
+.appr dt, .appr dd { padding: 0.75rem clamp(0.6rem, 1.6vw, 1.1rem); min-width: 0; }
+.appr dt { color: var(--line-2); font-size: 0.62rem; }
+.appr dd { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+.appr code { font: 500 0.95rem var(--f-m); overflow-wrap: anywhere; user-select: all; }
+.appr .btn { padding: 0.5rem 0.75rem; font-size: 0.66rem; }
+.stampwrap { display: grid; place-items: center; min-height: 9rem; }
+.stamp { display: inline-block; padding: 0.6rem 1.1rem 0.5rem; border: 3px solid var(--acc); border-radius: 6px; color: var(--acc); text-align: center; transform: rotate(-11deg); font: 700 clamp(1.5rem, 5vw, 2.4rem)/0.95 var(--f-d); letter-spacing: 0.06em; text-transform: uppercase; }
+.stamp small { display: block; margin-top: 0.35rem; padding-top: 0.3rem; border-top: 2px solid var(--acc); font: 500 0.6rem var(--f-m); letter-spacing: 0.16em; }
+
+
+/* ---- refinements: prompts, ruler, crosshair, fact strips, detail sheets, revisions ---- */
+.sh--tight { margin-bottom: 0.9rem; }
+.sh__sub { max-width: 46ch; margin-bottom: clamp(2rem, 6vh, 3.5rem); color: var(--line-2); }
+.sign .sh__sub { margin: 1.2rem 0 0; font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.4rem); line-height: 1.35; color: var(--line); }
+
+.cover__stick { touch-action: pan-y; cursor: grab; -webkit-user-select: none; user-select: none; }
+.cover__stick.is-drag { cursor: grabbing; }
+.hint { position: absolute; top: 4.7rem; left: var(--pad); color: var(--line-2); transition: opacity 0.6s; pointer-events: none; }
+.hint.is-off { opacity: 0; }
+.cover__scroll { flex-basis: 100%; margin-top: 0.25rem; color: var(--line-2); }
+.cover__scroll b { display: inline-block; margin-left: 0.3em; color: var(--acc); font-weight: 500; animation: nudge 1.6s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateY(5px); } }
+
+.ruler {
+  position: fixed; right: 14px; top: 24vh; bottom: 24vh; width: 9px; z-index: 44; pointer-events: none;
+  border-right: 1px solid var(--line-2);
+  background:
+    repeating-linear-gradient(to bottom, var(--line-2) 0 1px, transparent 1px 50px) right / 9px 100% no-repeat,
+    repeating-linear-gradient(to bottom, var(--line-3) 0 1px, transparent 1px 10px) right / 5px 100% no-repeat;
+}
+.ruler i { position: absolute; right: -1px; top: 0; width: 16px; height: 2px; margin-top: -1px; background: var(--acc); }
+@media (max-width: 759px) { .ruler { width: 6px; } .ruler i { width: 11px; } }
+
+.xh { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .xh { display: block; position: fixed; z-index: 39; pointer-events: none; background: var(--line); opacity: 0.14; }
+  .xh--h { left: 0; right: 0; top: 0; height: 1px; }
+  .xh--v { top: 0; bottom: 0; left: 0; width: 1px; }
+}
+
+.bom__q { color: var(--line-2); text-align: right; white-space: nowrap; }
+
+.m3d { display: block; width: 100%; aspect-ratio: 16 / 10; touch-action: pan-y; cursor: grab; }
+.m3d:active { cursor: grabbing; }
+.view__fig .m3d { aspect-ratio: 4 / 3; }
+.det__drag { position: absolute; right: 0.7rem; bottom: 0.6rem; color: var(--line-2); font-size: 0.6rem; pointer-events: none; transition: opacity 0.5s; }
+.has-dragged .det__drag { opacity: 0; }
+
+.det__spec { display: flex; justify-content: space-between; gap: 0.75rem; margin-top: auto; padding-top: 0.8rem; border-top: 1px solid var(--line-3); }
+.det__spec div { min-width: 0; }
+.det__spec dt { font: 400 0.52rem/1.3 var(--f-m); letter-spacing: 0.14em; color: var(--line-2); }
+.det__spec dd { font: 600 1.05rem/1.15 var(--f-d); letter-spacing: 0.03em; text-transform: uppercase; }
+.det__open { align-self: flex-start; padding: 0.6rem 0.9rem; font-size: 0.66rem; }
+
+.view {
+  position: fixed; inset: 0; z-index: 80; overflow-y: auto; overscroll-behavior: contain;
+  padding: clamp(4.8rem, 12vh, 6.5rem) var(--pad) 3rem;
+  background-color: var(--sheet); background-image: inherit; background-size: inherit;
+}
+.view::before { content: ""; position: fixed; inset: 8px; border: 1px solid var(--line-2); pointer-events: none; }
+.view__close { position: fixed; top: 1.25rem; right: 1.25rem; z-index: 2; background: var(--sheet); }
+.view__in { display: grid; gap: clamp(1.5rem, 4vw, 3.5rem); max-width: 72rem; margin: 0 auto; }
+.view__fig { border-bottom: 1px solid var(--line-2); }
+@media (min-width: 900px) {
+  .view__in { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; }
+  .view__fig { position: sticky; top: 5rem; }
+}
+.view h2 { margin-bottom: 1.4rem; font: 700 clamp(2.8rem, 9vw, 5.5rem)/0.86 var(--f-d); text-transform: uppercase; }
+.view h3 { margin: 1.6rem 0 0.45rem; color: var(--acc); }
+.view p { max-width: 40em; color: var(--line-2); }
+.view p.view__k { margin-bottom: 0.7rem; color: var(--acc); }
+.view .det__spec { margin: 0; padding: 0.8rem 0; border-bottom: 1px solid var(--line-3); }
+.view__nav { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2.2rem; }
+
+.stamp { background: none; cursor: pointer; }
+.rev { margin-top: clamp(2.5rem, 7vh, 4.5rem); }
+.rev__r { display: grid; grid-template-columns: 3rem 6rem minmax(0, 1fr); border-top: 1px solid var(--line-3); font-size: 0.92rem; }
+.rev__r:first-child { border-top: 0; color: var(--line-2); }
+.rev__r > * { padding: 0.55rem clamp(0.6rem, 1.6vw, 1.1rem); min-width: 0; }
+.rev__r b { color: var(--acc); font: 500 0.8rem var(--f-m); }
+.colophon { margin-top: 1.4rem; color: var(--line-2); line-height: 1.9; font-size: 0.62rem; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; animation: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="plot" aria-hidden="true">
+  <span class="mono">Plotting sheet 01 / 05</span>
+  <div class="plot__bar"><i></i></div>
+  <span class="mono plot__pct">000%</span>
+</div>
+<div class="wipe" aria-hidden="true"><small>SHEET 01 / 05</small><span>Cover</span></div>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="co" aria-hidden="true"><span><b>01 SILICON</b><i>the hardware it all runs on</i></span><span><b>02 KERNEL</b><i>threads, scheduling, IPC</i></span><span><b>03 RUNTIME</b><i>on-device, no network</i></span><span><b>04 MODEL</b><i>vision and language</i></span><span><b>05 INTERFACE</b><i>what people actually touch</i></span></div>
+<div class="frame" aria-hidden="true"></div>
+<div class="ruler" aria-hidden="true"><i></i></div>
+<div class="xh xh--h" aria-hidden="true"></div><div class="xh xh--v" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="bar__id" href="#cover" data-go aria-label="Aaditya Lahori, cover sheet">A<b>/</b>L</a>
+  <nav class="mono" aria-label="Sheets">
+    <a href="#profile" data-go>Profile</a>
+    <a href="#spec" data-go>Spec</a>
+    <a href="#details" data-go>Details</a>
+    <a href="#signoff" data-go>Sign-off</a>
+  </nav>
+  <button class="bar__paper" type="button" aria-label="Switch between blueprint and white paper" title="Blueprint / white paper"><i></i></button>
+</header>
+
+<main>
+  <section class="cover" id="cover" data-sheet="Cover">
+    <div class="cover__stick">
+      <div class="cover__text">
+        <p class="mono cover__dwg">DWG AL-2026-001 · Rev C · Folio 2026</p>
+        <div class="nameblock">
+          <h1 class="name" aria-label="Aaditya Lahori"><span aria-hidden="true"><b>Aaditya</b></span><span aria-hidden="true"><b>Lahori</b></span></h1>
+          <div class="dim mono"><i></i><span>Software developer</span><i></i></div>
+        </div>
+        <p class="cover__lede">I build software that sits close to the metal and close to people, from kernel internals to AI that runs entirely on a phone.</p>
+        <div class="cover__cta">
+          <a class="btn btn--acc" href="#details" data-go>View details</a>
+          <a class="btn" href="#signoff" data-go>Sign-off</a>
+          <p class="mono cover__scroll">Scroll to take it apart<b>↓</b></p>
+        </div>
+      </div>
+      <p class="mono hint" aria-hidden="true">↔ Drag to rotate</p>
+      <p class="fig mono"><b>FIG. 1</b> · Software stack, exploded view · Not to scale</p>
+    </div>
+  </section>
+
+  <section class="sheet" id="profile" data-sheet="Profile">
+    <div class="sh"><span class="sh__no">02</span><h2><span>Profile</span></h2><i class="sh__rule"></i></div>
+    <p class="lead" data-rv>I'm Aaditya, a software developer who likes problems with a hard edge. I'd rather understand how a scheduler picks its next thread, or why a model fits in a phone's memory, than glue boxes together.</p>
+    <p class="mono notes-h">General notes</p>
+    <ol class="notes panel">
+      <li data-rv><h3>Go one layer deeper</h3><p>Abstractions are great until they leak. I like knowing what's underneath: the kernel, the runtime, the maths.</p></li>
+      <li data-rv><h3>Ship the small version</h3><p>A working slice beats a perfect plan. Build it, measure it, then earn the next piece of complexity.</p></li>
+      <li data-rv><h3>Make it feel good</h3><p>Performance and polish are features. If it stutters or confuses, it isn't finished yet.</p></li>
+    </ol>
+  </section>
+
+  <section class="sheet" id="spec" data-sheet="Spec">
+    <div class="sh sh--tight"><span class="sh__no">03</span><h2><span>Bill of materials</span></h2><i class="sh__rule"></i></div>
+    <p class="sh__sub" data-rv>What the work is built from, grouped by where it sits in the stack.</p>
+    <div class="bom panel">
+      <div class="bom__r mono"><span>Item</span><span>Assembly</span><span>Parts</span><span class="bom__q">Qty</span></div>
+      <div class="bom__r" data-rv><span class="bom__n">01</span><h3 class="bom__a">Languages</h3><ul class="chips"><li>Python</li><li>C</li><li>C++</li><li>Java</li><li>JavaScript</li></ul><span class="bom__q mono">×5</span></div>
+      <div class="bom__r" data-rv><span class="bom__n">02</span><h3 class="bom__a">Systems</h3><ul class="chips"><li>OS internals</li><li>Concurrency</li><li>IPC</li><li>Linux</li><li>Docker</li></ul><span class="bom__q mono">×5</span></div>
+      <div class="bom__r" data-rv><span class="bom__n">03</span><h3 class="bom__a">AI / ML</h3><ul class="chips"><li>PyTorch</li><li>ExecuTorch</li><li>On-device LLMs</li><li>Pose estimation</li><li>Computer vision</li></ul><span class="bom__q mono">×5</span></div>
+      <div class="bom__r" data-rv><span class="bom__n">04</span><h3 class="bom__a">Quantum</h3><ul class="chips"><li>Qiskit</li><li>Qiskit Aer</li><li>Density matrices</li><li>Circuit synthesis</li></ul><span class="bom__q mono">×4</span></div>
+      <div class="bom__r" data-rv><span class="bom__n">05</span><h3 class="bom__a">Build &amp; ship</h3><ul class="chips"><li>Git</li><li>Android</li><li>uv</li><li>Jupyter</li><li>Testing</li></ul><span class="bom__q mono">×5</span></div>
+    </div>
+  </section>
+
+  <section class="sheet" id="details" data-sheet="Details">
+    <div class="sh sh--tight"><span class="sh__no">04</span><h2><span>Details</span></h2><i class="sh__rule"></i></div>
+    <p class="sh__sub" data-rv>Four 3D drawings. Drag one to turn it, or open it for the full sheet: the brief, the approach and where it stands.</p>
+    <div class="dets">
+
+      <article class="det panel" data-rv>
+        <div class="det__fig">
+          <span class="det__tag mono"><b>A</b>Detail</span>
+          <canvas class="m3d" data-model="waste" role="img" aria-label="3D drawing of a phone scanning a bottle. Drag to rotate."></canvas><span class="det__drag mono" aria-hidden="true">↔ Drag</span>
+        </div>
+        <div class="det__body">
+          <p class="mono det__k">On-device AI · Android</p>
+          <h3>Waste Segregation Assistant</h3>
+          <p>Point a phone at trash; it identifies the item, picks the right bin under India's waste rules and explains why. Vision and an LLM run fully offline.</p>
+          <ul class="chips"><li>ExecuTorch</li><li>Llama</li><li>Arm</li><li>Python</li></ul>
+          <dl class="det__spec"><div><dt>YEAR</dt><dd>2026</dd></div><div><dt>RUNS ON</dt><dd>Android · Arm</dd></div><div><dt>STATUS</dt><dd>In progress</dd></div></dl>
+          <div class="det__more" hidden><p data-k="Brief">Sorting waste correctly is confusing, and the right answer depends on the item. The assistant looks at something through the phone camera and says which bin it belongs in under India's waste rules, with a short explanation.</p><p data-k="Approach">A vision model identifies the item and a small Llama model explains the disposal and recycling options. Both run on the phone through ExecuTorch, so nothing leaves the device and it works with no network.</p><p data-k="Where it stands">Early. The repository, tooling and design are in place; the model work comes next.</p></div>
+          <button class="btn det__open" type="button">Open drawing →</button>
+        </div>
+      </article>
+
+      <article class="det panel" data-rv>
+        <div class="det__fig">
+          <span class="det__tag mono"><b>B</b>Detail</span>
+          <canvas class="m3d" data-model="serve" role="img" aria-label="3D drawing of a tennis serve and the ball's path. Drag to rotate."></canvas><span class="det__drag mono" aria-hidden="true">↔ Drag</span>
+        </div>
+        <div class="det__body">
+          <p class="mono det__k">Computer vision · Sport</p>
+          <h3>Tennis Serve Analyzer</h3>
+          <p>Personalised serve biomechanics from video: track the body through the motion and compare it against professional serves to show what to change.</p>
+          <ul class="chips"><li>Pose estimation</li><li>Biomechanics</li><li>Python</li></ul>
+          <dl class="det__spec"><div><dt>YEAR</dt><dd>2026</dd></div><div><dt>INPUT</dt><dd>Serve video</dd></div><div><dt>STATUS</dt><dd>In design</dd></div></dl>
+          <div class="det__more" hidden><p data-k="Brief">A serve is one fast, complicated motion, and generic tips rarely fit a specific player. The goal is feedback personalised to one player's body and technique.</p><p data-k="Approach">Estimate the body's pose through the serve from video, turn that into biomechanical measures, and compare them with professional serves to point at specific differences.</p><p data-k="Where it stands">In design, with an early implementation. The architecture and pipeline are chosen.</p></div>
+          <button class="btn det__open" type="button">Open drawing →</button>
+        </div>
+      </article>
+
+      <article class="det panel" data-rv>
+        <div class="det__fig">
+          <span class="det__tag mono"><b>C</b>Detail</span>
+          <canvas class="m3d" data-model="pintos" role="img" aria-label="3D drawing of a processor with protection rings and a ready queue. Drag to rotate."></canvas><span class="det__drag mono" aria-hidden="true">↔ Drag</span>
+        </div>
+        <div class="det__body">
+          <p class="mono det__k">Operating systems</p>
+          <h3>Pintos Kernel</h3>
+          <p>Building out a teaching OS from the inside: threads, scheduling, synchronisation and inter-process communication, debugged one triple fault at a time.</p>
+          <ul class="chips"><li>C</li><li>x86</li><li>Docker</li><li>GDB</li></ul>
+          <dl class="det__spec"><div><dt>YEAR</dt><dd>2026</dd></div><div><dt>TARGET</dt><dd>x86 emulator</dd></div><div><dt>STATUS</dt><dd>Coursework</dd></div></dl>
+          <div class="det__more" hidden><p data-k="Brief">Pintos is a small teaching operating system. The work is to extend it from the inside until it behaves like a real kernel.</p><p data-k="Approach">Work through threads and scheduling, synchronisation and inter-process communication, running the kernel in an emulator inside Docker and debugging with GDB.</p><p data-k="Where it stands">Coursework, in progress this academic year.</p></div>
+          <button class="btn det__open" type="button">Open drawing →</button>
+        </div>
+      </article>
+
+      <article class="det panel" data-rv>
+        <div class="det__fig">
+          <span class="det__tag mono"><b>D</b>Detail</span>
+          <canvas class="m3d" data-model="bloch" role="img" aria-label="3D drawing of a Bloch sphere with a state vector. Drag to rotate."></canvas><span class="det__drag mono" aria-hidden="true">↔ Drag</span>
+        </div>
+        <div class="det__body">
+          <p class="mono det__k">Quantum computing</p>
+          <h3>Quantum State Lab</h3>
+          <p>Pure and mixed states, state vectors and density matrices explored in simulation, with notebooks that show the maths and the measurements side by side.</p>
+          <ul class="chips"><li>Qiskit</li><li>Qiskit Aer</li><li>Jupyter</li></ul>
+          <dl class="det__spec"><div><dt>YEAR</dt><dd>2026</dd></div><div><dt>BACKEND</dt><dd>Aer simulator</dd></div><div><dt>STATUS</dt><dd>Coursework</dd></div></dl>
+          <div class="det__more" hidden><p data-k="Brief">A team assignment on how quantum states are described: pure and mixed states, state vectors and density matrices.</p><p data-k="Approach">Build each case in Qiskit, run it on the Aer simulator, and put the mathematics next to the measured results in notebooks so the two can be checked against each other.</p><p data-k="Where it stands">Coursework. Most sections are implemented and the rest are scaffolded.</p></div>
+          <button class="btn det__open" type="button">Open drawing →</button>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="sheet sign" id="signoff" data-sheet="Sign-off">
+    <div class="sh"><span class="sh__no">05</span><p class="mono">Sign-off</p><i class="sh__rule"></i></div>
+    <h2 class="big" aria-label="Let's build it."><span aria-hidden="true"><b>Let's</b></span><span class="o" aria-hidden="true"><b>build it.</b></span></h2>
+    <p class="sh__sub" data-rv>Got a hard problem, an internship or a half-formed idea? Send it over.</p>
+    <div class="sign__grid">
+      <dl class="appr panel">
+        <div><dt class="mono">Prepared by</dt><dd>Aaditya Lahori</dd></div>
+        <!-- TODO: replace with your real email and profile links -->
+        <div><dt class="mono">Email</dt><dd><code id="mail">hello@example.com</code><button class="btn" type="button" id="copy">Copy</button></dd></div>
+        <div><dt class="mono">References</dt><dd><a href="#" data-ph>GitHub</a><a href="#" data-ph>LinkedIn</a><a href="#" data-ph>Résumé</a></dd></div>
+        <div><dt class="mono">Open to</dt><dd>Hard problems, internships, half-formed ideas</dd></div>
+      </dl>
+      <div class="stampwrap"><button class="stamp" type="button" aria-label="Stamp it again">Approved<br>for build<small>A. LAHORI · 2026</small></button></div>
+    </div>
+    <div class="rev panel" data-rv>
+      <div class="rev__r mono"><span>Rev</span><span>Date</span><span>Description</span></div>
+      <div class="rev__r"><b>C</b><span>Nov 2026</span><span>Full detail sheets, 3D drawings you can turn, scroll ruler</span></div>
+      <div class="rev__r"><b>B</b><span>Nov 2026</span><span>Redrawn as an engineering drawing set</span></div>
+      <div class="rev__r"><b>A</b><span>Nov 2026</span><span>First issue</span></div>
+    </div>
+    <p class="mono colophon">Set in Barlow Condensed, Barlow and IBM Plex Mono · Drawn with three.js, GSAP and anime.js<br>© 2026 Aaditya Lahori</p>
+  </section>
+</main>
+
+<div class="view" hidden data-lenis-prevent></div>
+
+<dl class="tb" aria-hidden="true">
+  <div class="opt"><dt>DRAWN</dt><dd>A. LAHORI</dd></div>
+  <div><dt>SHEET</dt><dd id="tb-no">01 / 05</dd></div>
+  <div><dt>TITLE</dt><dd id="tb-title">COVER</dd></div>
+  <div class="opt"><dt>REV</dt><dd>C</dd></div>
+  <div><dt>POS</dt><dd id="tb-pos">Y 00000</dd></div>
+</dl>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<script>
+(() => {
+  'use strict';
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const smooth = (t) => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
+  const root = document.documentElement;
+  const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const FINE = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const plotEl = $('.plot');
+
+  // Without the animation libraries the page is simply shown as is.
+  if (!window.gsap || !window.ScrollTrigger || !window.anime) { plotEl.remove(); return; }
+  gsap.registerPlugin(ScrollTrigger);
+  document.body.classList.add('is-plotting');
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+
+  const st = { cover: 0, fade: 0, page: 0, plot: 0, px: 0, py: 0, drag: 0, vel: 0 };
+
+  /* smooth wheel scrolling on desktop */
+  let lenis = null;
+  if (window.Lenis && !REDUCED && FINE) {
+    lenis = new Lenis({ lerp: 0.1 });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((t) => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+    lenis.stop();
+  }
+  const jump = (y) => { if (lenis) lenis.scrollTo(y, { immediate: true, force: true }); else window.scrollTo(0, y); ScrollTrigger.update(); };
+
+  /* ---------- title block, nav state, position readout ---------- */
+  const sheets = $$('[data-sheet]');
+  const tbNo = $('#tb-no'), tbTitle = $('#tb-title'), tbPos = $('#tb-pos');
+  const links = $$('.bar nav a');
+  const pad = (n, l) => String(Math.max(0, Math.round(n))).padStart(l, '0');
+  function setSheet(i) {
+    tbNo.textContent = pad(i + 1, 2) + ' / 05';
+    tbTitle.textContent = sheets[i].dataset.sheet.toUpperCase();
+    links.forEach((a) => a.classList.toggle('is-on', a.getAttribute('href') === '#' + sheets[i].id));
+  }
+  const xhH = $('.xh--h'), xhV = $('.xh--v'), rulerMark = $('.ruler i');
+  if (FINE) {
+    window.addEventListener('pointermove', (e) => {
+      xhH.style.transform = `translateY(${e.clientY}px)`;
+      xhV.style.transform = `translateX(${e.clientX}px)`;
+      st.px = (e.clientX / innerWidth) * 2 - 1;
+      st.py = (e.clientY / innerHeight) * 2 - 1;
+      tbPos.textContent = 'X ' + pad(e.clientX, 4) + '  Y ' + pad(e.clientY + scrollY, 5);
+    }, { passive: true });
+  } else {
+    window.addEventListener('scroll', () => { tbPos.textContent = 'Y ' + pad(scrollY, 5); }, { passive: true });
+  }
+
+  /* ---------- paper toggle ---------- */
+  let syncColors = () => {};
+  $('.bar__paper').addEventListener('click', () => {
+    if (root.dataset.paper === 'white') delete root.dataset.paper; else root.dataset.paper = 'white';
+    syncColors();
+    M3D.refresh();
+  });
+
+  /* ---------- copy email, placeholder links ---------- */
+  $('#copy').addEventListener('click', async (e) => {
+    const btn = e.currentTarget, code = $('#mail');
+    try { await navigator.clipboard.writeText(code.textContent); btn.textContent = 'Copied'; }
+    catch (err) { const r = document.createRange(); r.selectNodeContents(code); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected'; }
+    setTimeout(() => { btn.textContent = 'Copy'; }, 1800);
+  });
+  $$('[data-ph]').forEach((a) => a.addEventListener('click', (e) => e.preventDefault()));
+
+  /* ---------- sheet-change wipe ---------- */
+  const wipe = $('.wipe');
+  let busy = false;
+  $$('[data-go]').forEach((a) => a.addEventListener('click', (e) => {
+    const target = $(a.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    const y = target.getBoundingClientRect().top + scrollY;
+    const i = sheets.indexOf(target);
+    if (REDUCED) { jump(y); return; }
+    if (busy) return;
+    busy = true;
+    wipe.firstElementChild.textContent = 'SHEET ' + pad(i + 1, 2) + ' / 05';
+    wipe.lastElementChild.textContent = target.dataset.sheet;
+    anime.timeline({ easing: 'easeInOutQuart' })
+      .add({ targets: wipe, translateX: ['-101%', '0%'], duration: 480 })
+      .add({ targets: wipe, translateX: ['0%', '101%'], duration: 560, delay: 160, begin: () => jump(y), complete: () => { busy = false; } });
+  }));
+
+  function wipeThen(small, big, fn) {
+    if (REDUCED) { fn(); return; }
+    if (busy) return;
+    busy = true;
+    wipe.firstElementChild.textContent = small;
+    wipe.lastElementChild.textContent = big;
+    anime.timeline({ easing: 'easeInOutQuart' })
+      .add({ targets: wipe, translateX: ['-101%', '0%'], duration: 480 })
+      .add({ targets: wipe, translateX: ['0%', '101%'], duration: 560, delay: 160, begin: fn, complete: () => { busy = false; } });
+  }
+
+  /* ---------- 3D project models: a small wireframe renderer on 2D canvas ----------
+     Each model is a list of 3D polylines, turned by yaw and pitch and drawn with an
+     orthographic projection. Static lines plot in; a small moving part explains the project. */
+  const M3D = (() => {
+    const G = -0.9, BX = 0.05, BZ = -0.3; // ground level, bottle position
+    const mix = (a, b, t) => a + (b - a) * t;
+    const poly = (o, p, opt) => o.push(Object.assign({ p }, opt));
+    function box(o, cx, cy, cz, w, h, d, opt) {
+      const x0 = cx - w / 2, x1 = cx + w / 2, y0 = cy - h / 2, y1 = cy + h / 2, z0 = cz - d / 2, z1 = cz + d / 2;
+      poly(o, [[x0, y0, z0], [x1, y0, z0], [x1, y0, z1], [x0, y0, z1], [x0, y0, z0]], opt);
+      poly(o, [[x0, y1, z0], [x1, y1, z0], [x1, y1, z1], [x0, y1, z1], [x0, y1, z0]], opt);
+      [[x0, z0], [x1, z0], [x1, z1], [x0, z1]].forEach(([x, z]) => poly(o, [[x, y0, z], [x, y1, z]], opt));
+    }
+    function ring(o, cx, cy, cz, rx, ry, plane, opt, n = 28) {
+      const p = [];
+      for (let i = 0; i <= n; i++) {
+        const a = (i / n) * Math.PI * 2, u = Math.cos(a) * rx, v = Math.sin(a) * ry;
+        p.push(plane === 'xz' ? [cx + u, cy, cz + v] : plane === 'xy' ? [cx + u, cy + v, cz] : [cx, cy + v, cz + u]);
+      }
+      poly(o, p, opt);
+    }
+    const bottleR = (y) => (y < -0.15 ? 0.26 : y < 0.12 ? mix(0.26, 0.1, (y + 0.15) / 0.27) : 0.1);
+    const ball = (q) => [mix(-0.95, 1.25, q), 0.88 + 0.12 * q - 1.9 * q * q, mix(0, 0.3, q)];
+    const R = 1.1, TH = 0.95; // Bloch sphere radius, polar angle of the state
+
+    const MODELS = {
+      // a phone scans a bottle and names its bin
+      waste: {
+        yaw: -0.6, ex: 1.75, ey: 1.4, cy: -0.15,
+        labels: [{ p: [-1.0, 0.74, 0.55], t: 'OFFLINE' }, { p: [1.0, -0.12, -0.3], t: 'BIN: DRY', a: true }],
+        build(o) {
+          poly(o, [[-1.55, G, -0.95], [1.45, G, -0.95], [1.45, G, 0.95], [-1.55, G, 0.95], [-1.55, G, -0.95]], { o: 0.4 });
+          box(o, -1.0, -0.1, 0.55, 0.7, 1.3, 0.07);
+          poly(o, [[-1.28, -0.58, 0.59], [-0.72, -0.58, 0.59], [-0.72, 0.44, 0.59], [-1.28, 0.44, 0.59], [-1.28, -0.58, 0.59]]);
+          [[G, 0.26], [-0.15, 0.26], [0.12, 0.1], [0.38, 0.1]].forEach(([y, r]) => ring(o, BX, y, BZ, r, r, 'xz'));
+          for (let i = 0; i < 6; i++) {
+            const a = (i / 6) * Math.PI * 2, c = Math.cos(a), n = Math.sin(a);
+            poly(o, [[BX + c * 0.26, G, BZ + n * 0.26], [BX + c * 0.26, -0.15, BZ + n * 0.26], [BX + c * 0.1, 0.12, BZ + n * 0.1], [BX + c * 0.1, 0.38, BZ + n * 0.1]]);
+          }
+          const x0 = BX - 0.42, x1 = BX + 0.42, y0 = G + 0.04, y1 = 0.56, L = 0.16;
+          [[x0, y0, 1, 1], [x1, y0, -1, 1], [x1, y1, -1, -1], [x0, y1, 1, -1]].forEach(([x, y, sx, sy]) => {
+            poly(o, [[x + sx * L, y, BZ], [x, y, BZ], [x, y + sy * L, BZ]], { a: true });
+            poly(o, [[-1.0, -0.1, 0.5], [x, y, BZ]], { d: true, o: 0.45 });
+          });
+          box(o, 1.0, -0.6, -0.3, 0.5, 0.6, 0.5);
+        },
+        dyn(t, o) { // the scan ring sweeps the bottle
+          const y = G + (0.5 + 0.5 * Math.sin(t * 1.7)) * 1.26, r = bottleR(y) + 0.05;
+          ring(o, BX, y, BZ, r, r, 'xz', { a: true });
+        },
+      },
+
+      // a serve, the ball's path and the contact height
+      serve: {
+        yaw: -0.4, ex: 1.85, ey: 1.35, cy: -0.1,
+        labels: [{ p: [-0.72, 0.0, 0.75], t: 'CONTACT HEIGHT', al: 'left', dx: 8 }, { p: [0.15, 0.47, 0.15], t: 'BALL PATH', a: true, dy: -13 }],
+        build(o) {
+          const X = -1.25;
+          poly(o, [[-1.6, G, -0.75], [1.6, G, -0.75], [1.6, G, 0.75], [-1.6, G, 0.75], [-1.6, G, -0.75]]);
+          poly(o, [[1.0, G, -0.75], [1.0, G, 0.75]], { o: 0.6 });
+          poly(o, [[0.2, G, 0], [1.0, G, 0]], { o: 0.6 });
+          poly(o, [[0.2, G, -0.75], [0.2, G + 0.3, -0.75], [0.2, G + 0.3, 0.75], [0.2, G, 0.75]]);
+          for (let z = -0.5; z <= 0.51; z += 0.25) poly(o, [[0.2, G, z], [0.2, G + 0.3, z]], { o: 0.45 });
+          ring(o, X, 0.3, 0, 0.11, 0.11, 'xy');
+          ring(o, X, 0.3, 0, 0.11, 0.11, 'zy', { o: 0.6 });
+          poly(o, [[X, 0.19, 0], [X, -0.32, 0]]);
+          poly(o, [[X - 0.1, G, 0.12], [X, -0.32, 0], [X + 0.12, G, -0.1]]);
+          poly(o, [[X - 0.2, -0.12, 0.1], [X, 0.1, 0], [X + 0.14, 0.42, 0], [X + 0.22, 0.68, 0]]);
+          ring(o, X + 0.27, 0.86, 0, 0.1, 0.17, 'xy');
+          poly(o, Array.from({ length: 25 }, (_, i) => ball(i / 24)), { a: true, d: true });
+          poly(o, [[-0.72, G, 0.75], [-0.72, 0.88, 0.75]]);
+          poly(o, [[-0.8, G, 0.75], [-0.64, G, 0.75]]);
+          poly(o, [[-0.8, 0.88, 0.75], [-0.64, 0.88, 0.75]]);
+          poly(o, [[-0.95, 0.88, 0], [-0.72, 0.88, 0.75]], { d: true, o: 0.4 });
+        },
+        dyn(t, o) { // the ball flies the path
+          const q = ball((t * 0.42) % 1);
+          ring(o, q[0], q[1], q[2], 0.055, 0.055, 'xy', { a: true }, 12);
+          ring(o, q[0], q[1], q[2], 0.055, 0.055, 'xz', { a: true }, 12);
+        },
+      },
+
+      // a processor, its protection rings and the scheduler's ready queue
+      pintos: {
+        yaw: -0.65, ex: 1.75, ey: 1.2, cy: -0.1,
+        labels: [{ p: [1.15, 0.86, 0], t: 'READY QUEUE' }, { p: [-0.35, 0.36, 0], t: 'RING 0', a: true }],
+        build(o) {
+          const C = -0.35;
+          box(o, C, -0.6, 0, 1.5, 0.16, 1.5);
+          for (let i = 0; i < 6; i++) {
+            const c = -0.6 + i * 0.24;
+            poly(o, [[C + c, -0.6, 0.75], [C + c, -0.6, 0.92]]);
+            poly(o, [[C + c, -0.6, -0.75], [C + c, -0.6, -0.92]]);
+            poly(o, [[C + 0.75, -0.6, c], [C + 0.92, -0.6, c]]);
+            poly(o, [[C - 0.75, -0.6, c], [C - 0.92, -0.6, c]]);
+          }
+          [[0.6, -0.44], [0.44, -0.28], [0.28, -0.12]].forEach(([r, y]) => box(o, C, y, 0, r * 2, 0.16, r * 2));
+          box(o, C, 0.04, 0, 0.26, 0.16, 0.26, { a: true });
+          for (let i = 0; i < 3; i++) box(o, 1.15, 0.55 - i * 0.34, 0, 0.6, 0.18, 0.34);
+        },
+        dyn(t, o, lb) { // round-robin: each thread gets its turn on the CPU
+          const k = Math.floor(t / 1.3) % 3, y = 0.55 - k * 0.34;
+          box(o, 1.15, y, 0, 0.6, 0.18, 0.34, { a: true });
+          poly(o, [[0.85, y, 0], [0.3, y, 0], [-0.2, 0.14, 0]], { a: true, ar: true });
+          for (let i = 0; i < 3; i++) lb.push({ p: [1.15, 0.55 - i * 0.34, 0.17], t: 'T' + (i + 1), a: i === k });
+        },
+      },
+
+      // a qubit's state on the Bloch sphere
+      bloch: {
+        yaw: -0.5, ex: 1.75, ey: 1.72, cy: 0,
+        labels: [{ p: [0, 1.5, 0], t: '|0⟩' }, { p: [0, -1.5, 0], t: '|1⟩' }],
+        build(o) {
+          ring(o, 0, 0, 0, R, R, 'xz', null, 40);
+          ring(o, 0, 0, 0, R, R, 'xy', null, 40);
+          ring(o, 0, 0, 0, R, R, 'zy', { o: 0.7 }, 40);
+          [0.55, -0.55].forEach((y) => { const r = Math.sqrt(R * R - y * y); ring(o, 0, y, 0, r, r, 'xz', { o: 0.3 }, 36); });
+          poly(o, [[0, -1.38, 0], [0, 1.38, 0]], { o: 0.8 });
+          poly(o, [[-1.38, 0, 0], [1.38, 0, 0]], { o: 0.6 });
+          poly(o, [[0, 0, -1.38], [0, 0, 1.38]], { o: 0.6 });
+          ring(o, 0, R * Math.cos(TH), 0, R * Math.sin(TH), R * Math.sin(TH), 'xz', { a: true, d: true, o: 0.55 }, 36);
+        },
+        dyn(t, o, lb) { // the state vector precesses
+          const ph = t * 0.7, tip = [R * Math.sin(TH) * Math.cos(ph), R * Math.cos(TH), R * Math.sin(TH) * Math.sin(ph)];
+          poly(o, [[0, 0, 0], tip], { a: true, ar: true });
+          poly(o, [tip, [tip[0], 0, tip[2]], [0, 0, 0]], { d: true, o: 0.6 });
+          lb.push({ p: tip, t: '|ψ⟩', a: true, dy: -13 });
+        },
+      },
+    };
+
+    const items = new Map();
+    let raf = 0, col = null;
+    function refresh() {
+      const cs = getComputedStyle(root);
+      col = { line: cs.getPropertyValue('--line').trim(), acc: cs.getPropertyValue('--acc').trim() };
+    }
+
+    function draw(it, now) {
+      const { ctx, canvas, def } = it, w = canvas.width, h = canvas.height, d = it.dpr;
+      if (!w || !h) return;
+      if (!col) refresh();
+      const t = REDUCED ? 1.2 : now / 1000;
+      if (it.dragX === null) { it.user += it.vel; it.vel *= 0.94; }
+      const yaw = def.yaw + it.user + (REDUCED ? 0 : Math.sin(t * 0.45 + it.seed) * 0.2);
+      const cw = Math.cos(yaw), sw = Math.sin(yaw), cp = Math.cos(it.pitch), sp = Math.sin(it.pitch);
+      const sc = Math.min(w / (2 * def.ex), h / (2 * def.ey));
+      const pr = (p) => {
+        const x1 = p[0] * cw + p[2] * sw, z1 = -p[0] * sw + p[2] * cw, y = p[1] - def.cy;
+        return [w / 2 + x1 * sc, h / 2 - (y * cp - z1 * sp) * sc, y * sp + z1 * cp];
+      };
+      const plot = REDUCED ? 1 : smooth((now - it.start) / 1700);
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.lineWidth = 1.35 * d;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      // draw the first `budget` segments of a polyline; lines nearer the viewer are brighter
+      const stroke = (line, budget, mul) => {
+        const n = line.p.length - 1, k = Math.min(n, budget);
+        if (k <= 0) return;
+        const steps = Math.ceil(k);
+        let depth = 0, last = null, prev = null;
+        ctx.beginPath();
+        for (let i = 0; i <= steps; i++) {
+          let q = pr(line.p[i]);
+          if (i > k) { const a = pr(line.p[i - 1]), f = k - (i - 1); q = [mix(a[0], q[0], f), mix(a[1], q[1], f), q[2]]; }
+          if (i === 0) ctx.moveTo(q[0], q[1]); else ctx.lineTo(q[0], q[1]);
+          depth += q[2];
+          prev = last;
+          last = q;
+        }
+        const near = clamp(0.5 + depth / (steps + 1) / (def.ex * 2), 0, 1);
+        ctx.globalAlpha = (line.o || 1) * mix(0.45, 1, near) * mul;
+        ctx.strokeStyle = line.a ? col.acc : col.line;
+        ctx.setLineDash(line.d ? [5 * d, 5 * d] : []);
+        ctx.stroke();
+        if (line.ar && k >= n && prev) {
+          const ang = Math.atan2(last[1] - prev[1], last[0] - prev[0]);
+          ctx.setLineDash([]);
+          ctx.beginPath();
+          [2.65, -2.65].forEach((off) => { ctx.moveTo(last[0], last[1]); ctx.lineTo(last[0] + Math.cos(ang + off) * 9 * d, last[1] + Math.sin(ang + off) * 9 * d); });
+          ctx.stroke();
+        }
+      };
+
+      let budget = plot * def.nseg;
+      for (const line of def.lines) {
+        stroke(line, budget, 1);
+        budget -= line.p.length - 1;
+        if (budget <= 0) break;
+      }
+
+      // the moving part and the labels arrive once the drawing is nearly plotted
+      const fade = clamp((plot - 0.8) / 0.2, 0, 1);
+      if (fade > 0) {
+        const moving = [], labels = def.labels.slice();
+        def.dyn(t, moving, labels);
+        moving.forEach((line) => stroke(line, 1e9, fade));
+        ctx.setLineDash([]);
+        ctx.font = `500 ${Math.round(9.5 * d)}px "IBM Plex Mono", ui-monospace, monospace`;
+        ctx.textBaseline = 'middle';
+        labels.forEach((L) => {
+          const q = pr(L.p);
+          ctx.globalAlpha = fade * (L.a ? 1 : 0.8);
+          ctx.fillStyle = L.a ? col.acc : col.line;
+          ctx.textAlign = L.al || 'center';
+          ctx.fillText(L.t, q[0] + (L.dx || 0) * d, q[1] + (L.dy || 0) * d);
+        });
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function tick(now) {
+      let any = false;
+      items.forEach((it) => { if (it.visible) { draw(it, now); any = true; } });
+      raf = any ? requestAnimationFrame(tick) : 0;
+    }
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+
+    function mount(canvas, delay = 0) {
+      const def = MODELS[canvas.dataset.model];
+      if (!def || items.has(canvas)) return;
+      if (!def.lines) { def.lines = []; def.build(def.lines); def.nseg = def.lines.reduce((n, l) => n + l.p.length - 1, 0); }
+      const it = { canvas, ctx: canvas.getContext('2d'), def, dpr: 1, user: 0, vel: 0, pitch: 0.5, dragX: null, dragY: 0, moved: 0, visible: false, start: 0, seed: Math.random() * 6 };
+      const size = () => {
+        it.dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.round(canvas.clientWidth * it.dpr);
+        canvas.height = Math.round(canvas.clientHeight * it.dpr);
+      };
+      size();
+      it.ro = new ResizeObserver(size);
+      it.ro.observe(canvas);
+      it.io = new IntersectionObserver((es) => {
+        it.visible = es[0].isIntersecting;
+        if (it.visible) { if (!it.start) it.start = performance.now() + delay; kick(); }
+      }, { threshold: 0.15 });
+      it.io.observe(canvas);
+
+      canvas.addEventListener('pointerdown', (e) => {
+        it.dragX = e.clientX; it.dragY = e.clientY; it.moved = 0; it.vel = 0;
+        try { canvas.setPointerCapture(e.pointerId); } catch (err) { /* older browsers */ }
+      });
+      canvas.addEventListener('pointermove', (e) => {
+        if (it.dragX === null) return;
+        const dx = e.clientX - it.dragX, dy = e.clientY - it.dragY;
+        it.dragX = e.clientX; it.dragY = e.clientY;
+        it.user += dx * 0.011;
+        it.vel = dx * 0.011;
+        it.moved += Math.abs(dx) + Math.abs(dy);
+        if (e.pointerType === 'mouse') it.pitch = clamp(it.pitch + dy * 0.006, 0.12, 1.15);
+        if (it.moved > 8) root.classList.add('has-dragged');
+      });
+      const end = () => { if (it.dragX !== null && it.moved > 8) canvas._dragEnd = performance.now(); it.dragX = null; };
+      canvas.addEventListener('pointerup', end);
+      canvas.addEventListener('pointercancel', end);
+      items.set(canvas, it);
+    }
+    function unmount(canvas) {
+      const it = items.get(canvas);
+      if (!it) return;
+      it.ro.disconnect();
+      it.io.disconnect();
+      items.delete(canvas);
+    }
+    return { mount, unmount, refresh };
+  })();
+  $$('.dets canvas.m3d').forEach((c) => M3D.mount(c));
+
+  /* ---------- full detail sheets ---------- */
+  const view = $('.view'), cards = $$('.det');
+  const LETTERS = 'ABCD';
+  let viewIdx = -1, pushed = false;
+  try { if (location.hash === '#detail') history.replaceState(null, '', location.pathname + location.search); } catch (err) { /* not allowed here */ }
+
+  function renderDetail(i) {
+    const c = cards[i], src = $('canvas.m3d', c);
+    const old = $('canvas.m3d', view);
+    if (old) M3D.unmount(old);
+    const prev = (i + cards.length - 1) % cards.length, next = (i + 1) % cards.length;
+    const more = $$('.det__more [data-k]', c).map((p) => `<h3 class="mono">${p.dataset.k}</h3><p>${p.innerHTML}</p>`).join('');
+    view.innerHTML = `
+      <button class="btn view__close" type="button" data-close>✕ Close</button>
+      <div class="view__in">
+        <div class="det__fig panel view__fig"><span class="det__tag mono"><b>${LETTERS[i]}</b>Detail</span><canvas class="m3d" data-model="${src.dataset.model}" role="img" aria-label="${src.getAttribute('aria-label')}"></canvas><span class="det__drag mono" aria-hidden="true">↔ Drag</span></div>
+        <div>
+          <p class="mono view__k">${$('.det__k', c).textContent}</p>
+          <h2>${$('h3', c).textContent}</h2>
+          ${$('.det__spec', c).outerHTML}
+          ${more}
+          <h3 class="mono">Parts</h3>${$('.chips', c).outerHTML}
+          <div class="view__nav">
+            <button class="btn" type="button" data-detail="${prev}">← Detail ${LETTERS[prev]}</button>
+            <button class="btn" type="button" data-detail="${next}">Detail ${LETTERS[next]} →</button>
+            <button class="btn btn--acc" type="button" data-close>Back to sheet 04</button>
+          </div>
+        </div>
+      </div>`;
+    view.hidden = false;
+    view.scrollTop = 0;
+    viewIdx = i;
+    document.body.classList.add('is-plotting');
+    if (lenis) lenis.stop();
+    M3D.mount($('canvas.m3d', view), REDUCED ? 0 : 450);
+    $('.view__close', view).focus({ preventScroll: true });
+  }
+  function hideDetail() {
+    const cv = $('canvas.m3d', view);
+    if (cv) M3D.unmount(cv);
+    view.hidden = true;
+    view.innerHTML = '';
+    viewIdx = -1;
+    document.body.classList.remove('is-plotting');
+    if (lenis) lenis.start();
+  }
+  const titleOf = (i) => $('h3', cards[i]).textContent;
+  function openDetail(i) {
+    wipeThen('DETAIL ' + LETTERS[i], titleOf(i), () => {
+      renderDetail(i);
+      // one history entry, so the phone's back button closes the sheet instead of leaving the page
+      if (!pushed) { pushed = true; location.hash = 'detail'; }
+    });
+  }
+  function closeDetail() {
+    if (pushed) history.back(); else wipeThen('SHEET 04 / 05', 'Details', hideDetail);
+  }
+  window.addEventListener('hashchange', () => {
+    if (location.hash !== '#detail' && viewIdx >= 0) { pushed = false; wipeThen('SHEET 04 / 05', 'Details', hideDetail); }
+  });
+  cards.forEach((c, i) => c.addEventListener('click', (e) => {
+    const cv = e.target.closest('canvas');
+    if (cv && cv._dragEnd && performance.now() - cv._dragEnd < 400) return; // that was a drag, not a tap
+    openDetail(i);
+  }));
+  view.addEventListener('click', (e) => {
+    if (e.target.closest('[data-close]')) { closeDetail(); return; }
+    const b = e.target.closest('[data-detail]');
+    if (b) { const i = +b.dataset.detail; wipeThen('DETAIL ' + LETTERS[i], titleOf(i), () => renderDetail(i)); }
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && viewIdx >= 0) closeDetail(); });
+
+  /* ---------- drag the model to rotate it ---------- */
+  const stage = $('.cover__stick'), hint = $('.hint');
+  let dragX = null;
+  stage.addEventListener('pointerdown', (e) => { if (!e.target.closest('a, button')) { dragX = e.clientX; st.vel = 0; } });
+  window.addEventListener('pointermove', (e) => {
+    if (dragX === null) return;
+    const d = (e.clientX - dragX) * 0.008;
+    dragX = e.clientX;
+    st.drag += d;
+    st.vel = d;
+    if (Math.abs(d) > 0.004) { hint.classList.add('is-off'); stage.classList.add('is-drag'); }
+  }, { passive: true });
+  const endDrag = () => { dragX = null; stage.classList.remove('is-drag'); };
+  window.addEventListener('pointerup', endDrag);
+  window.addEventListener('pointercancel', endDrag);
+
+  /* ---------- scroll choreography ---------- */
+  function initScroll() {
+    const text = $('.cover__text'), fig = $('.fig');
+    ScrollTrigger.create({
+      trigger: '.cover', start: 'top top', end: 'bottom bottom',
+      onUpdate: (s) => {
+        st.cover = s.progress;
+        const out = smooth(s.progress / 0.3);
+        text.style.opacity = 1 - out;
+        text.style.transform = `translateY(${-50 * out}px)`;
+        text.style.pointerEvents = out > 0.6 ? 'none' : '';
+        fig.style.opacity = smooth((s.progress - 0.45) / 0.2) * (1 - smooth((s.progress - 0.9) / 0.1));
+      },
+    });
+    ScrollTrigger.create({ trigger: '#profile', start: 'top 85%', end: 'top 20%', onUpdate: (s) => { st.fade = s.progress; }, onRefresh: (s) => { st.fade = s.progress; } });
+    ScrollTrigger.create({ start: 0, end: 'max', onUpdate: (s) => { st.page = s.progress; rulerMark.style.top = s.progress * 100 + '%'; } });
+    sheets.forEach((sec, i) => ScrollTrigger.create({ trigger: sec, start: 'top 55%', end: 'bottom 55%', onToggle: (s) => { if (s.isActive) setSheet(i); } }));
+
+    // headings rise out of their own baseline, the rule draws across
+    $$('.sh').forEach((sh) => {
+      const tl = gsap.timeline({ scrollTrigger: { trigger: sh, start: 'top 88%', once: true } });
+      const h = $('h2 span', sh);
+      if (h) tl.from(h, { yPercent: 105, duration: 0.9, ease: 'expo.out' });
+      tl.from($('.sh__rule', sh), { scaleX: 0, duration: 1.1, ease: 'expo.out' }, 0.1)
+        .from($('.sh__no', sh), { scale: 0, rotate: -90, duration: 0.6, ease: 'back.out(2)' }, 0);
+    });
+    gsap.from('.sign h2.big b', { yPercent: 105, duration: 1, ease: 'expo.out', stagger: 0.12, scrollTrigger: { trigger: '.sign h2.big', start: 'top 85%', once: true } });
+
+    const rv = $$('[data-rv]');
+    gsap.set(rv, { y: 36, opacity: 0 });
+    ScrollTrigger.batch(rv, { start: 'top 92%', once: true, onEnter: (els) => gsap.to(els, { y: 0, opacity: 1, duration: 0.9, ease: 'expo.out', stagger: 0.08, overwrite: true }) });
+
+    // the approval stamp lands
+    const stamp = $('.stamp');
+    gsap.set(stamp, { opacity: 0 });
+    ScrollTrigger.create({
+      trigger: stamp, start: 'top 85%', once: true,
+      onEnter: () => anime({ targets: stamp, opacity: [0, 1], scale: [2.6, 1], rotate: [-30, -11], duration: REDUCED ? 1 : 520, easing: 'easeInQuart' }),
+    });
+    stamp.addEventListener('click', () => anime({ targets: stamp, opacity: [0.2, 1], scale: [2.2, 1], rotate: [anime.random(-32, 12), anime.random(-16, -5)], duration: REDUCED ? 1 : 420, easing: 'easeInQuart' }));
+    ScrollTrigger.refresh();
+  }
+
+  /* ---------- three.js: the exploded stack ---------- */
+  async function initGL() {
+    const THREE = await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js');
+    THREE.ColorManagement.enabled = false;
+    const canvas = $('#gl');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.autoClear = false;
+    const scene = new THREE.Scene();
+    const cam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 80);
+    cam.position.set(8, 5.6, 8);
+    cam.lookAt(0, 0, 0);
+    cam.updateMatrixWorld();
+    const right = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 0);
+    const up = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 1);
+
+    const mat = new THREE.LineBasicMaterial({ transparent: true });
+    const matAcc = new THREE.LineBasicMaterial({ transparent: true });
+    syncColors = () => {
+      const cs = getComputedStyle(root);
+      mat.color.set(cs.getPropertyValue('--line').trim());
+      matAcc.color.set(cs.getPropertyValue('--acc').trim());
+    };
+    syncColors();
+
+    const T = 0.09, top = T + 0.002;
+    const seg = (a, x1, y1, z1, x2, y2, z2) => a.push(x1, y1, z1, x2, y2, z2);
+    const sq = (a, r, y) => { seg(a, -r, y, -r, r, y, -r); seg(a, r, y, -r, r, y, r); seg(a, r, y, r, -r, y, r); seg(a, -r, y, r, -r, y, -r); };
+    const ring = (a, cx, cz, r, n = 10) => { for (let i = 0; i < n; i++) { const p = (i / n) * 6.2832, q = ((i + 1) / n) * 6.2832; seg(a, cx + Math.cos(p) * r, top, cz + Math.sin(p) * r, cx + Math.cos(q) * r, top, cz + Math.sin(q) * r); } };
+    const slab = (a) => { sq(a, 1, -T); sq(a, 1, T); [[-1, -1], [1, -1], [1, 1], [-1, 1]].forEach(([x, z]) => seg(a, x, -T, z, x, T, z)); };
+
+    const builders = [
+      (a) => { // silicon: trace grid and pins
+        for (let i = -3; i <= 3; i++) { const c = i * 0.25; seg(a, c, top, -0.75, c, top, 0.75); seg(a, -0.75, top, c, 0.75, top, c); seg(a, c, 0, 1, c, 0, 1.15); seg(a, c, 0, -1, c, 0, -1.15); seg(a, 1, 0, c, 1.15, 0, c); seg(a, -1, 0, c, -1.15, 0, c); }
+      },
+      (a) => { // kernel: protection rings
+        [0.8, 0.56, 0.32].forEach((r) => sq(a, r, top));
+        [[1, 1], [1, -1], [-1, 1], [-1, -1]].forEach(([x, z]) => seg(a, 0.8 * x, top, 0.8 * z, 0.32 * x, top, 0.32 * z));
+      },
+      (a) => { // runtime: hatched block
+        sq(a, 0.8, top);
+        for (let c = -1.4; c <= 1.41; c += 0.2) { const x1 = Math.max(-0.8, c - 0.8), x2 = Math.min(0.8, c + 0.8); if (x2 > x1) seg(a, x1, top, x1 - c, x2, top, x2 - c); }
+      },
+      (a) => { // model: a small network
+        const cols = [[-0.6, [-0.6, -0.2, 0.2, 0.6]], [0, [-0.4, 0, 0.4]], [0.6, [-0.2, 0.2]]];
+        cols.forEach(([x, zs]) => zs.forEach((z) => ring(a, x, z, 0.075, 8)));
+        for (let i = 0; i < cols.length - 1; i++) cols[i][1].forEach((z1) => cols[i + 1][1].forEach((z2) => seg(a, cols[i][0] + 0.075, top, z1, cols[i + 1][0] - 0.075, top, z2)));
+      },
+      (a) => { // interface: a screen with content
+        const x = 0.46, z = 0.78, c = 0.1;
+        seg(a, -x + c, top, -z, x - c, top, -z); seg(a, x - c, top, -z, x, top, -z + c); seg(a, x, top, -z + c, x, top, z - c); seg(a, x, top, z - c, x - c, top, z);
+        seg(a, x - c, top, z, -x + c, top, z); seg(a, -x + c, top, z, -x, top, z - c); seg(a, -x, top, z - c, -x, top, -z + c); seg(a, -x, top, -z + c, -x + c, top, -z);
+        seg(a, -0.28, top, -0.5, 0.28, top, -0.5); seg(a, -0.28, top, -0.34, 0.28, top, -0.34); seg(a, -0.28, top, -0.18, 0.1, top, -0.18);
+        ring(a, 0, 0.42, 0.13, 12);
+      },
+    ];
+
+    const stack = new THREE.Group();
+    const layers = builders.map((build) => {
+      const a = [];
+      slab(a);
+      build(a);
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(a, 3));
+      const mesh = new THREE.LineSegments(geo, mat);
+      mesh.userData.n = a.length / 3;
+      stack.add(mesh);
+      return mesh;
+    });
+    const axisGeo = new THREE.BufferGeometry();
+    axisGeo.setAttribute('position', new THREE.Float32BufferAttribute([0, -0.5, 0, 0, 0.5, 0], 3));
+    const axis = new THREE.LineSegments(axisGeo, matAcc);
+    stack.add(axis);
+    scene.add(stack);
+
+    let W = 1, H = 1, aspect = 1, v = 3.4;
+    const resize = () => {
+      W = innerWidth; H = innerHeight; aspect = W / H;
+      v = Math.max(3.5, 2.5 / aspect);
+      renderer.setSize(W, H, false);
+      cam.left = -v * aspect; cam.right = v * aspect; cam.top = v; cam.bottom = -v;
+      cam.updateProjectionMatrix();
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const co = $('.co'), labels = $$('.co span');
+    const p = new THREE.Vector3();
+    const offsets = [[0, 0], [1, 0], [0, 1]];
+    let t0 = performance.now(), time = 0, rot = 0;
+
+    function frame(now) {
+      requestAnimationFrame(frame);
+      if (document.hidden) { t0 = now; return; }
+      time += Math.min((now - t0) / 1000, 0.05) * (REDUCED ? 0.2 : 1);
+      t0 = now;
+      const wide = aspect > 1;
+      const e = smooth((st.cover - 0.08) / 0.55);
+      const gap = lerp(0.32, 1.02, e);
+      const op = lerp(1, 0.13, smooth(st.fade));
+
+      layers.forEach((L, i) => {
+        L.position.y = (i - 2) * gap;
+        const local = clamp(st.plot * 1.9 - i * 0.22, 0, 1);
+        L.geometry.setDrawRange(0, Math.floor((L.userData.n / 2) * local) * 2);
+      });
+      axis.scale.y = 4 * gap + 0.6;
+      mat.opacity = op;
+      matAcc.opacity = op * e;
+
+      if (dragX === null) { st.drag += st.vel; st.vel *= 0.94; }
+      rot = lerp(rot, -0.3 + st.page * 1.1 + st.px * 0.22 + st.drag, dragX === null ? 0.07 : 0.3);
+      stack.rotation.y = rot + Math.sin(time * 0.3) * 0.05;
+      const sx = wide ? lerp(0.25, 0, e) : 0;
+      const sy = wide ? lerp(0.04, 0.02, e) : lerp(0.28, 0.03, e);
+      stack.position.set(0, 0, 0).addScaledVector(right, sx * 2 * v * aspect).addScaledVector(up, sy * 2 * v);
+
+      // three sub-pixel passes thicken the 1px WebGL lines
+      const bw = renderer.domElement.width, bh = renderer.domElement.height;
+      renderer.clear();
+      offsets.forEach(([ox, oy]) => { cam.setViewOffset(bw, bh, ox, oy, bw, bh); renderer.render(scene, cam); });
+      cam.clearViewOffset();
+
+      // callouts follow their layer
+      const lo = e * clamp((op - 0.35) / 0.3, 0, 1);
+      co.classList.toggle('is-wide', wide);
+      stack.updateMatrixWorld();
+      layers.forEach((L, i) => {
+        const el = labels[i];
+        if (lo < 0.01) { el.style.opacity = 0; return; }
+        if (wide) p.set(1, 0, -1); else p.set(1, -T, 1);
+        L.localToWorld(p).project(cam);
+        const y = (-p.y * 0.5 + 0.5) * H;
+        let x = (p.x * 0.5 + 0.5) * W;
+        if (!wide) x = clamp(x, 96, W - 96); // keep centred labels on screen when the model is turned
+        el.style.opacity = lo;
+        el.style.transform = wide ? `translate(${x}px, ${y}px) translateY(-50%)` : `translate(${x}px, ${y + 7}px) translateX(-50%)`;
+      });
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- intro ---------- */
+  const glReady = initGL().catch((err) => { console.warn('3D model unavailable:', err); });
+  const counted = new Promise((res) => {
+    const o = { v: 0 }, bar = $('.plot__bar i'), pct = $('.plot__pct');
+    anime({ targets: o, v: 100, duration: REDUCED ? 200 : 1300, easing: 'easeInOutCubic', update: () => { bar.style.transform = `scaleX(${o.v / 100})`; pct.textContent = pad(o.v, 3) + '%'; }, complete: res });
+  });
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  Promise.all([counted, Promise.race([document.fonts ? document.fonts.ready : null, wait(2500)]), Promise.race([glReady, wait(3500)])]).then(() => {
+    window.scrollTo(0, 0);
+    try { initScroll(); } catch (err) { console.warn('Scroll effects unavailable:', err); }
+    setSheet(0);
+    document.body.classList.remove('is-plotting');
+    if (lenis) lenis.start();
+    anime({ targets: plotEl, translateY: '-101%', duration: REDUCED ? 1 : 800, easing: 'easeInOutQuart', complete: () => plotEl.remove() });
+    anime({ targets: st, plot: 1, duration: REDUCED ? 1 : 2400, delay: 300, easing: 'easeInOutSine' });
+    if (REDUCED) return;
+    gsap.from('.name b', { yPercent: 105, duration: 1.1, ease: 'expo.out', stagger: 0.12, delay: 0.45 });
+    gsap.from('.nameblock .dim i', { scaleX: 0, transformOrigin: (i) => (i ? '0 50%' : '100% 50%'), duration: 1.1, ease: 'expo.out', delay: 1 });
+    gsap.from('.nameblock .dim span, .cover__dwg, .cover__lede, .cover__cta', { y: 20, opacity: 0, duration: 0.9, ease: 'expo.out', stagger: 0.09, delay: 1.05 });
+    gsap.from('.bar, .tb', { opacity: 0, duration: 0.8, delay: 0.9 });
+  });
+})();
+</script>
+</body>
+</html>
