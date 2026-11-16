@@ -289,6 +289,45 @@ main { position: relative; z-index: 2; }
 .rev__r b { color: var(--acc); font: 500 0.8rem var(--f-m); }
 .colophon { margin-top: 1.4rem; color: var(--line-2); line-height: 1.9; font-size: 0.62rem; }
 
+/* ---- every screen: narrow phones, short or sideways screens, very wide monitors ---- */
+.bar nav a { white-space: nowrap; }
+@media (max-width: 400px) {
+  .bar { gap: 0.4rem; }
+  .bar nav { gap: 0.5rem; }
+  .bar nav a { font-size: 0.56rem; letter-spacing: 0.06em; }
+  .btn { padding: 0.7rem 0.8rem; letter-spacing: 0.1em; }
+  .appr > div { grid-template-columns: 5.8rem minmax(0, 1fr); }
+  .rev__r { grid-template-columns: 2.4rem 4.9rem minmax(0, 1fr); }
+}
+/* short portrait phones: keep the cover text clear of the model */
+@media (max-height: 720px) and (orientation: portrait) {
+  .cover__dwg { display: none; }
+  .name { font-size: clamp(3.4rem, min(23vw, 13vh), 15rem); }
+  .nameblock .dim { margin: 0.6rem 0 0.8rem; }
+  .cover__lede { font-size: 1rem; }
+  .cover__cta { margin-top: 0.9rem; }
+}
+/* sideways phones and other short, wide screens: the name goes on one line */
+@media (max-height: 560px) and (orientation: landscape) {
+  .cover__stick { padding-bottom: 4.4rem; }
+  .cover__dwg, .cover__scroll { display: none; }
+  .name { font-size: clamp(2.6rem, min(10.5vw, 22vh), 9rem); }
+  .name span { display: inline-block; vertical-align: top; }
+  .name span + span { margin-left: 0.22em; }
+  .nameblock .dim { margin: 0.5rem 0 0.7rem; }
+  .cover__lede { max-width: 44ch; font-size: 0.98rem; }
+  .cover__cta { margin-top: 0.8rem; }
+  .btn { padding: 0.65rem 0.9rem; }
+  .hint { display: none; }
+  .ruler { top: 30vh; bottom: 30vh; }
+  .sheet { padding-top: 4.5rem; }
+}
+@media (max-height: 400px) and (orientation: landscape) { .cover__lede { display: none; } }
+/* very wide monitors: keep the sheets to a readable width */
+@media (min-width: 1900px) {
+  .sheet, .cover__stick { padding-left: max(var(--pad), calc((100vw - 112rem) / 2)); padding-right: max(var(--pad), calc((100vw - 112rem) / 2)); }
+}
+
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; animation: none !important; } }
 </style>
 </head>
@@ -442,9 +481,8 @@ main { position: relative; z-index: 2; }
     <div class="sign__grid">
       <dl class="appr panel">
         <div><dt class="mono">Prepared by</dt><dd>Aaditya Lahori</dd></div>
-        <!-- TODO: replace with your real email and profile links -->
-        <div><dt class="mono">Email</dt><dd><code id="mail">hello@example.com</code><button class="btn" type="button" id="copy">Copy</button></dd></div>
-        <div><dt class="mono">References</dt><dd><a href="#" data-ph>GitHub</a><a href="#" data-ph>LinkedIn</a><a href="#" data-ph>Résumé</a></dd></div>
+        <div><dt class="mono">Email</dt><dd><code id="mail">celestial.zodiac500@gmail.com</code><button class="btn" type="button" id="copy">Copy</button></dd></div>
+        <div><dt class="mono">References</dt><dd><a href="https://github.com/Aadi-hash" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/aaditya-lahori-a6b095326/" target="_blank" rel="noopener">LinkedIn</a></dd></div>
         <div><dt class="mono">Open to</dt><dd>Hard problems, internships, half-formed ideas</dd></div>
       </dl>
       <div class="stampwrap"><button class="stamp" type="button" aria-label="Stamp it again">Approved<br>for build<small>A. LAHORI · 2026</small></button></div>
