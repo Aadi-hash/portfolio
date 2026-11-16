@@ -3,7 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aaditya Lahori Blueprint</title>
+<title>Aaditya Lahori — Software Developer</title>
+<meta name="description" content="Aaditya Lahori is a software developer. Operating systems, on-device AI and computer vision. A portfolio drawn as an engineering blueprint, with 3D models you can turn and try.">
+<meta name="theme-color" content="#1638a8">
+<link rel="canonical" href="https://aadi-hash.github.io/portfolio/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aaditya Lahori">
+<meta property="og:title" content="Aaditya Lahori — Software Developer">
+<meta property="og:description" content="Operating systems, on-device AI and computer vision. A portfolio drawn as an engineering blueprint, with 3D models you can turn and try.">
+<meta property="og:url" content="https://aadi-hash.github.io/portfolio/">
+<meta property="og:image" content="https://aadi-hash.github.io/portfolio/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Blueprint-style title card: Aaditya Lahori, software developer, beside an exploded drawing of a software stack.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Aaditya Lahori — Software Developer">
+<meta name="twitter:description" content="Operating systems, on-device AI and computer vision. A portfolio drawn as an engineering blueprint, with 3D models you can turn and try.">
+<meta name="twitter:image" content="https://aadi-hash.github.io/portfolio/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231638a8'/%3E%3Ctext x='19' y='44' font-family='Arial Narrow,Arial,sans-serif' font-weight='700' font-size='30' text-anchor='middle' fill='%23eaf0ff'%3EA%3C/text%3E%3Ctext x='47' y='44' font-family='Arial Narrow,Arial,sans-serif' font-weight='700' font-size='30' text-anchor='middle' fill='%23eaf0ff'%3EL%3C/text%3E%3Cpath d='M37 16 27 50' stroke='%23ff7a33' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Aaditya Lahori","jobTitle":"Software Developer","url":"https://aadi-hash.github.io/portfolio/","sameAs":["https://github.com/Aadi-hash","https://www.linkedin.com/in/aaditya-lahori-a6b095326/"]}</script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* Layout: the page is a set of five drawing sheets inside a fixed border and title block.
@@ -289,6 +309,48 @@ main { position: relative; z-index: 2; }
 .rev__r b { color: var(--acc); font: 500 0.8rem var(--f-m); }
 .colophon { margin-top: 1.4rem; color: var(--line-2); line-height: 1.9; font-size: 0.62rem; }
 
+/* ---- playable demos on the detail sheets ---- */
+.ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; padding: 0.7rem; border-top: 1px solid var(--line-3); }
+.ctl:empty { display: none; }
+.ctl__k { margin-right: 0.3rem; color: var(--acc); font-size: 0.62rem; }
+.ctl__b { padding: 0.5rem 0.75rem; font-size: 0.64rem; }
+.ctl__r { display: flex; flex: 1 1 12rem; align-items: center; gap: 0.6rem; color: var(--line-2); font-size: 0.62rem; white-space: nowrap; }
+.ctl__r input { flex: 1; min-width: 6rem; accent-color: var(--acc); }
+.view__fig .det__drag { top: 0.8rem; bottom: auto; }
+
+/* ---- print: a plain black-on-white drawing sheet ---- */
+@media print {
+  :root, :root[data-paper="white"] { --sheet: #ffffff; --line: #10224f; --line-2: rgba(16, 34, 79, 0.82); --line-3: rgba(16, 34, 79, 0.35); --grid: transparent; --grid-2: transparent; --acc: #c2410c; --on-acc: #ffffff; color-scheme: light; }
+  @page { margin: 12mm; }
+  body { background: #fff !important; font-size: 10.5pt; }
+  #gl, .co, .frame, .ruler, .xh, .bar, .tb, .plot, .wipe, .view, .hint, .fig, .cover__cta, .cover__dwg, .det__fig, .det__open, .det__more,
+  .stampwrap, .rev, .sh__rule, .sh__sub, #copy, .colophon { display: none !important; }
+  .cover { height: auto; }
+  .cover__stick { position: static; height: auto; padding: 0 0 0.6rem; }
+  .cover__text, [data-rv], .sh h2 span, .sh__no, .name b, .sign h2.big b, .nameblock .dim i, .nameblock .dim span, .cover__lede { opacity: 1 !important; transform: none !important; }
+  .name { font-size: 40pt; }
+  .name span { display: inline-block; }
+  .name span + span { margin-left: 0.22em; }
+  .nameblock .dim { margin: 0.4rem 0 0.6rem; }
+  .cover__lede { max-width: none; font-size: 11.5pt; }
+  .sheet { padding: 0.5rem 0; }
+  .sh { margin-bottom: 0.5rem; break-after: avoid; }
+  .sh h2 { font-size: 19pt; }
+  .sh__no { width: 1.5rem; height: 1.5rem; margin-bottom: 0.1rem; font-size: 0.55rem; }
+  .lead { max-width: none; font-size: 12pt; }
+  .notes-h { margin-top: 0.7rem; }
+  .panel { background: none; }
+  .notes li, .det, .bom__r { break-inside: avoid; }
+  .notes h3 { margin-top: 0.4rem; font-size: 13pt; }
+  .dets { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .det h3 { font-size: 14pt; }
+  .bom__a { font-size: 13pt; }
+  .sign h2.big { font-size: 24pt; }
+  .sign h2.big span { display: inline-block; margin-right: 0.25em; }
+  .sign__grid { margin-top: 0.6rem; }
+  .appr a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 8pt; }
+}
+
 /* ---- every screen: narrow phones, short or sideways screens, very wide monitors ---- */
 .bar nav a { white-space: nowrap; }
 @media (max-width: 400px) {
@@ -404,7 +466,7 @@ main { position: relative; z-index: 2; }
 
   <section class="sheet" id="details" data-sheet="Details">
     <div class="sh sh--tight"><span class="sh__no">04</span><h2><span>Details</span></h2><i class="sh__rule"></i></div>
-    <p class="sh__sub" data-rv>Four 3D drawings. Drag one to turn it, or open it for the full sheet: the brief, the approach and where it stands.</p>
+    <p class="sh__sub" data-rv>Four 3D drawings. Drag one to turn it, or open it to try it yourself and read the brief, the approach and where it stands.</p>
     <div class="dets">
 
       <article class="det panel" data-rv>
@@ -489,7 +551,7 @@ main { position: relative; z-index: 2; }
     </div>
     <div class="rev panel" data-rv>
       <div class="rev__r mono"><span>Rev</span><span>Date</span><span>Description</span></div>
-      <div class="rev__r"><b>C</b><span>Nov 2026</span><span>Full detail sheets, 3D drawings you can turn, scroll ruler</span></div>
+      <div class="rev__r"><b>C</b><span>Nov 2026</span><span>Detail sheets with working 3D demos, a link per project</span></div>
       <div class="rev__r"><b>B</b><span>Nov 2026</span><span>Redrawn as an engineering drawing set</span></div>
       <div class="rev__r"><b>A</b><span>Nov 2026</span><span>First issue</span></div>
     </div>
@@ -569,8 +631,10 @@ main { position: relative; z-index: 2; }
 
   /* ---------- paper toggle ---------- */
   let syncColors = () => {};
+  try { if (localStorage.getItem('al-paper') === 'white') root.dataset.paper = 'white'; } catch (err) { /* storage unavailable */ }
   $('.bar__paper').addEventListener('click', () => {
     if (root.dataset.paper === 'white') delete root.dataset.paper; else root.dataset.paper = 'white';
+    try { localStorage.setItem('al-paper', root.dataset.paper || 'blue'); } catch (err) { /* storage unavailable */ }
     syncColors();
     M3D.refresh();
   });
@@ -615,10 +679,11 @@ main { position: relative; z-index: 2; }
   }
 
   /* ---------- 3D project models: a small wireframe renderer on 2D canvas ----------
-     Each model is a list of 3D polylines, turned by yaw and pitch and drawn with an
-     orthographic projection. Static lines plot in; a small moving part explains the project. */
+     Each model is a list of 3D polylines, turned by yaw and pitch and drawn with an orthographic
+     projection. Static lines plot in. Each model also has a working part driven by a small state
+     object: on the cards it runs by itself, on a detail sheet the visitor drives it with controls. */
   const M3D = (() => {
-    const G = -0.9, BX = 0.05, BZ = -0.3; // ground level, bottle position
+    const G = -0.9, BX = 0.05, BZ = -0.3; // ground level, scanned item position
     const mix = (a, b, t) => a + (b - a) * t;
     const poly = (o, p, opt) => o.push(Object.assign({ p }, opt));
     function box(o, cx, cy, cz, w, h, d, opt) {
@@ -635,41 +700,114 @@ main { position: relative; z-index: 2; }
       }
       poly(o, p, opt);
     }
-    const bottleR = (y) => (y < -0.15 ? 0.26 : y < 0.12 ? mix(0.26, 0.1, (y + 0.15) / 0.27) : 0.1);
-    const ball = (q) => [mix(-0.95, 1.25, q), 0.88 + 0.12 * q - 1.9 * q * q, mix(0, 0.3, q)];
-    const R = 1.1, TH = 0.95; // Bloch sphere radius, polar angle of the state
+    // a shape of revolution standing at the scan position: rings plus six profile lines
+    function lathe(o, prof) {
+      prof.forEach(([y, r]) => ring(o, BX, y, BZ, r, r, 'xz', null, 22));
+      for (let i = 0; i < 6; i++) {
+        const a = (i / 6) * Math.PI * 2, c = Math.cos(a), n = Math.sin(a);
+        poly(o, prof.map(([y, r]) => [BX + c * r, y, BZ + n * r]));
+      }
+    }
+
+    /* things the waste assistant can be shown */
+    const ITEMS = {
+      bottle: {
+        bin: 'DRY', top: 0.38,
+        rad: (y) => (y < -0.15 ? 0.26 : y < 0.12 ? mix(0.26, 0.1, (y + 0.15) / 0.27) : 0.1),
+        draw: (o) => lathe(o, [[G, 0.26], [-0.15, 0.26], [0.12, 0.1], [0.38, 0.1]]),
+      },
+      peel: {
+        bin: 'WET', top: G + 0.44, rad: () => 0.36,
+        draw(o) {
+          for (let i = 0; i < 4; i++) {
+            const a = i * Math.PI / 2 + 0.4, p = [], q = [];
+            for (let k = 0; k <= 8; k++) {
+              const u = k / 8, y = G + 0.34 * (1 - u * u);
+              p.push([BX + Math.cos(a) * 0.4 * u, y, BZ + Math.sin(a) * 0.4 * u]);
+              q.push([BX + Math.cos(a + 0.55) * 0.4 * u, y, BZ + Math.sin(a + 0.55) * 0.4 * u]);
+            }
+            poly(o, p);
+            poly(o, q);
+            poly(o, [p[8], q[8]]);
+          }
+          poly(o, [[BX, G + 0.34, BZ], [BX + 0.03, G + 0.46, BZ]]);
+        },
+      },
+      battery: {
+        bin: 'HAZARDOUS', top: -0.22, rad: () => 0.16,
+        draw: (o) => lathe(o, [[G, 0.14], [-0.3, 0.14], [-0.3, 0.06], [-0.22, 0.06]]),
+      },
+    };
+    const ITEM_KEYS = ['bottle', 'peel', 'battery'];
+    const pick = (key) => (st, t) => { st.item = key; st.t0 = t; };
+
+    /* single-qubit gates as rotations of the Bloch vector (x, y, z with z up) */
+    const R = 1.1;
+    const AXES = { X: [1, 0, 0], Z: [0, 0, 1], S: [0, 0, 1], H: [Math.SQRT1_2, 0, Math.SQRT1_2] };
+    const SEQ = ['H', 'S', 'X', 'H', 'Z', 'S', 'H', 'X'];
+    const rot = (v, k, a) => {
+      const c = Math.cos(a), n = Math.sin(a), d = (k[0] * v[0] + k[1] * v[1] + k[2] * v[2]) * (1 - c);
+      return [
+        v[0] * c + (k[1] * v[2] - k[2] * v[1]) * n + k[0] * d,
+        v[1] * c + (k[2] * v[0] - k[0] * v[2]) * n + k[1] * d,
+        v[2] * c + (k[0] * v[1] - k[1] * v[0]) * n + k[2] * d,
+      ];
+    };
+    const gate = (g) => (st, t) => {
+      if (st.to) st.v = st.to;
+      st.from = st.v;
+      st.axis = AXES[g];
+      st.ang = g === 'S' ? Math.PI / 2 : Math.PI;
+      st.to = rot(st.from, st.axis, st.ang).map((x) => Math.round(x * 1e6) / 1e6);
+      st.t0 = t;
+      st.g = g;
+    };
+    const ket = (v) => {
+      const e = 0.03;
+      return v[2] > 1 - e ? '|0⟩' : v[2] < e - 1 ? '|1⟩' : v[0] > 1 - e ? '|+⟩' : v[0] < e - 1 ? '|−⟩'
+        : v[1] > 1 - e ? '|+i⟩' : v[1] < e - 1 ? '|−i⟩' : '|ψ⟩';
+    };
 
     const MODELS = {
-      // a phone scans a bottle and names its bin
+      // a phone scans an item and names its bin
       waste: {
         yaw: -0.6, ex: 1.75, ey: 1.4, cy: -0.15,
-        labels: [{ p: [-1.0, 0.74, 0.55], t: 'OFFLINE' }, { p: [1.0, -0.12, -0.3], t: 'BIN: DRY', a: true }],
+        labels: [{ p: [-1.0, -0.86, 0.55], t: 'OFFLINE', dy: 14 }],
+        init: () => ({ item: 'bottle', t0: -9 }),
+        controls: [{ b: 'Bottle', f: pick('bottle') }, { b: 'Banana peel', f: pick('peel') }, { b: 'Battery', f: pick('battery') }],
         build(o) {
           poly(o, [[-1.55, G, -0.95], [1.45, G, -0.95], [1.45, G, 0.95], [-1.55, G, 0.95], [-1.55, G, -0.95]], { o: 0.4 });
           box(o, -1.0, -0.1, 0.55, 0.7, 1.3, 0.07);
           poly(o, [[-1.28, -0.58, 0.59], [-0.72, -0.58, 0.59], [-0.72, 0.44, 0.59], [-1.28, 0.44, 0.59], [-1.28, -0.58, 0.59]]);
-          [[G, 0.26], [-0.15, 0.26], [0.12, 0.1], [0.38, 0.1]].forEach(([y, r]) => ring(o, BX, y, BZ, r, r, 'xz'));
-          for (let i = 0; i < 6; i++) {
-            const a = (i / 6) * Math.PI * 2, c = Math.cos(a), n = Math.sin(a);
-            poly(o, [[BX + c * 0.26, G, BZ + n * 0.26], [BX + c * 0.26, -0.15, BZ + n * 0.26], [BX + c * 0.1, 0.12, BZ + n * 0.1], [BX + c * 0.1, 0.38, BZ + n * 0.1]]);
-          }
-          const x0 = BX - 0.42, x1 = BX + 0.42, y0 = G + 0.04, y1 = 0.56, L = 0.16;
+          const x0 = BX - 0.46, x1 = BX + 0.46, y0 = G + 0.04, y1 = 0.56, L = 0.16;
           [[x0, y0, 1, 1], [x1, y0, -1, 1], [x1, y1, -1, -1], [x0, y1, 1, -1]].forEach(([x, y, sx, sy]) => {
             poly(o, [[x + sx * L, y, BZ], [x, y, BZ], [x, y + sy * L, BZ]], { a: true });
             poly(o, [[-1.0, -0.1, 0.5], [x, y, BZ]], { d: true, o: 0.45 });
           });
           box(o, 1.0, -0.6, -0.3, 0.5, 0.6, 0.5);
         },
-        dyn(t, o) { // the scan ring sweeps the bottle
-          const y = G + (0.5 + 0.5 * Math.sin(t * 1.7)) * 1.26, r = bottleR(y) + 0.05;
-          ring(o, BX, y, BZ, r, r, 'xz', { a: true });
+        dyn(t, o, lb, st, auto) { // scan the item once, then light up its bin
+          let key = st.item, e = t - st.t0;
+          if (auto) { key = ITEM_KEYS[Math.floor(t / 3.6) % 3]; e = t % 3.6; }
+          const item = ITEMS[key];
+          item.draw(o);
+          if (e < 1.5) {
+            const y = mix(G, item.top, e / 1.5), r = item.rad(y) + 0.05;
+            ring(o, BX, y, BZ, r, r, 'xz', { a: true });
+            lb.push({ p: [1.0, -0.12, -0.3], t: 'SCANNING' });
+          } else {
+            box(o, 1.0, -0.6, -0.3, 0.5, 0.6, 0.5, { a: true });
+            lb.push({ p: [1.0, -0.12, -0.3], t: 'BIN: ' + item.bin, a: true });
+          }
         },
       },
 
-      // a serve, the ball's path and the contact height
+      // a serve: how fast it is hit decides whether it finds the net, the box or goes long
       serve: {
         yaw: -0.4, ex: 1.85, ey: 1.35, cy: -0.1,
-        labels: [{ p: [-0.72, 0.0, 0.75], t: 'CONTACT HEIGHT', al: 'left', dx: 8 }, { p: [0.15, 0.47, 0.15], t: 'BALL PATH', a: true, dy: -13 }],
+        labels: [{ p: [-0.72, 0.0, 0.75], t: 'CONTACT HEIGHT', al: 'left', dx: 8 }],
+        init: () => ({ speed: 0.55 }),
+        controls: [{ r: 'Serve speed', key: 'speed', min: 0, max: 1, step: 0.01 }],
         build(o) {
           const X = -1.25;
           poly(o, [[-1.6, G, -0.75], [1.6, G, -0.75], [1.6, G, 0.75], [-1.6, G, 0.75], [-1.6, G, -0.75]]);
@@ -683,23 +821,52 @@ main { position: relative; z-index: 2; }
           poly(o, [[X - 0.1, G, 0.12], [X, -0.32, 0], [X + 0.12, G, -0.1]]);
           poly(o, [[X - 0.2, -0.12, 0.1], [X, 0.1, 0], [X + 0.14, 0.42, 0], [X + 0.22, 0.68, 0]]);
           ring(o, X + 0.27, 0.86, 0, 0.1, 0.17, 'xy');
-          poly(o, Array.from({ length: 25 }, (_, i) => ball(i / 24)), { a: true, d: true });
           poly(o, [[-0.72, G, 0.75], [-0.72, 0.88, 0.75]]);
           poly(o, [[-0.8, G, 0.75], [-0.64, G, 0.75]]);
           poly(o, [[-0.8, 0.88, 0.75], [-0.64, 0.88, 0.75]]);
           poly(o, [[-0.95, 0.88, 0], [-0.72, 0.88, 0.75]], { d: true, o: 0.4 });
         },
-        dyn(t, o) { // the ball flies the path
-          const q = ball((t * 0.42) % 1);
+        dyn(t, o, lb, st, auto) {
+          const speed = auto ? 0.5 + 0.46 * Math.sin(t * 0.55) : st.speed;
+          // a slower ball drops more over the same distance
+          const drop = mix(0.62, 0.02, speed), slope = -0.72, x0 = -0.95, y0 = 0.88, net = G + 0.3, STEP = 0.05;
+          const at = (d) => [x0 + d, y0 + slope * d - drop * d * d, mix(0, 0.3, d / 2.2)];
+          const pts = [];
+          let res = 'LONG';
+          for (let i = 0; i < 70; i++) {
+            const d = i * STEP, q = at(d);
+            if (i > 0 && pts[pts.length - 1][0] < 0.2 && q[0] >= 0.2) {
+              const n = at(1.15);
+              if (n[1] < net) { pts.push([0.2, n[1], n[2]]); res = 'NET'; break; }
+            }
+            if (q[1] <= G) {
+              const p = at(d - STEP), f = (p[1] - G) / (p[1] - q[1]), land = at(d - STEP + STEP * f);
+              pts.push([land[0], G, land[2]]);
+              res = land[0] <= 1.0 ? 'IN' : 'LONG';
+              break;
+            }
+            pts.push(q);
+          }
+          const end = pts[pts.length - 1];
+          poly(o, pts, { a: true, d: true });
+          if (res !== 'NET') ring(o, end[0], G, end[2], 0.08, 0.08, 'xz', { a: res === 'IN' }, 14);
+          lb.push({ p: end, t: res, a: res === 'IN', dy: -14 });
+          const q = pts[Math.min(pts.length - 1, Math.floor(((t * 0.6) % 1) * pts.length))];
           ring(o, q[0], q[1], q[2], 0.055, 0.055, 'xy', { a: true }, 12);
           ring(o, q[0], q[1], q[2], 0.055, 0.055, 'xz', { a: true }, 12);
         },
       },
 
-      // a processor, its protection rings and the scheduler's ready queue
+      // a processor, its protection rings and a round-robin ready queue
       pintos: {
-        yaw: -0.65, ex: 1.75, ey: 1.2, cy: -0.1,
-        labels: [{ p: [1.15, 0.86, 0], t: 'READY QUEUE' }, { p: [-0.35, 0.36, 0], t: 'RING 0', a: true }],
+        yaw: -0.65, ex: 1.75, ey: 1.35, cy: 0.02,
+        labels: [{ p: [-0.35, 0.36, 0], t: 'RING 0', a: true }],
+        init: () => ({ n: 3, slice: 1.3 }),
+        controls: [
+          { b: '+ Thread', f: (st) => { st.n = Math.min(5, st.n + 1); } },
+          { b: '− Thread', f: (st) => { st.n = Math.max(1, st.n - 1); } },
+          { r: 'Time slice', key: 'slice', min: 0.4, max: 2.5, step: 0.1 },
+        ],
         build(o) {
           const C = -0.35;
           box(o, C, -0.6, 0, 1.5, 0.16, 1.5);
@@ -712,20 +879,30 @@ main { position: relative; z-index: 2; }
           }
           [[0.6, -0.44], [0.44, -0.28], [0.28, -0.12]].forEach(([r, y]) => box(o, C, y, 0, r * 2, 0.16, r * 2));
           box(o, C, 0.04, 0, 0.26, 0.16, 0.26, { a: true });
-          for (let i = 0; i < 3; i++) box(o, 1.15, 0.55 - i * 0.34, 0, 0.6, 0.18, 0.34);
         },
-        dyn(t, o, lb) { // round-robin: each thread gets its turn on the CPU
-          const k = Math.floor(t / 1.3) % 3, y = 0.55 - k * 0.34;
-          box(o, 1.15, y, 0, 0.6, 0.18, 0.34, { a: true });
+        dyn(t, o, lb, st, auto) { // each thread in the queue gets one time slice in turn
+          const n = auto ? 3 : st.n, slice = auto ? 1.3 : st.slice;
+          const top = 0.55 + (n - 3) * 0.15, k = Math.floor(t / slice) % n;
+          lb.push({ p: [1.15, top + 0.3, 0], t: 'READY QUEUE' });
+          for (let i = 0; i < n; i++) {
+            const y = top - i * 0.3;
+            box(o, 1.15, y, 0, 0.6, 0.18, 0.34, i === k ? { a: true } : null);
+            lb.push({ p: [1.15, y, 0.17], t: 'T' + (i + 1), a: i === k });
+          }
+          const y = top - k * 0.3;
           poly(o, [[0.85, y, 0], [0.3, y, 0], [-0.2, 0.14, 0]], { a: true, ar: true });
-          for (let i = 0; i < 3; i++) lb.push({ p: [1.15, 0.55 - i * 0.34, 0.17], t: 'T' + (i + 1), a: i === k });
         },
       },
 
-      // a qubit's state on the Bloch sphere
+      // a qubit's state on the Bloch sphere, moved by gates
       bloch: {
         yaw: -0.5, ex: 1.75, ey: 1.72, cy: 0,
         labels: [{ p: [0, 1.5, 0], t: '|0⟩' }, { p: [0, -1.5, 0], t: '|1⟩' }],
+        init: () => ({ v: [0, 0, 1], to: null, t0: 0, n: 0 }),
+        controls: [
+          { b: 'X', f: gate('X') }, { b: 'H', f: gate('H') }, { b: 'Z', f: gate('Z') }, { b: 'S', f: gate('S') },
+          { b: 'Reset', f: (st) => { st.v = [0, 0, 1]; st.to = null; } },
+        ],
         build(o) {
           ring(o, 0, 0, 0, R, R, 'xz', null, 40);
           ring(o, 0, 0, 0, R, R, 'xy', null, 40);
@@ -734,13 +911,18 @@ main { position: relative; z-index: 2; }
           poly(o, [[0, -1.38, 0], [0, 1.38, 0]], { o: 0.8 });
           poly(o, [[-1.38, 0, 0], [1.38, 0, 0]], { o: 0.6 });
           poly(o, [[0, 0, -1.38], [0, 0, 1.38]], { o: 0.6 });
-          ring(o, 0, R * Math.cos(TH), 0, R * Math.sin(TH), R * Math.sin(TH), 'xz', { a: true, d: true, o: 0.55 }, 36);
         },
-        dyn(t, o, lb) { // the state vector precesses
-          const ph = t * 0.7, tip = [R * Math.sin(TH) * Math.cos(ph), R * Math.cos(TH), R * Math.sin(TH) * Math.sin(ph)];
+        dyn(t, o, lb, st, auto) {
+          if (auto && !REDUCED && t - st.t0 > 1.9) gate(SEQ[st.n++ % SEQ.length])(st, t);
+          let v = st.v;
+          if (st.to) {
+            const u = (t - st.t0) / 0.7;
+            if (u >= 1) { st.v = st.to; st.to = null; v = st.v; } else v = rot(st.from, st.axis, st.ang * smooth(u));
+          }
+          const tip = [R * v[0], R * v[2], R * v[1]]; // quantum z is drawn up
           poly(o, [[0, 0, 0], tip], { a: true, ar: true });
-          poly(o, [tip, [tip[0], 0, tip[2]], [0, 0, 0]], { d: true, o: 0.6 });
-          lb.push({ p: tip, t: '|ψ⟩', a: true, dy: -13 });
+          if (Math.abs(v[2]) < 0.97) poly(o, [tip, [tip[0], 0, tip[2]], [0, 0, 0]], { d: true, o: 0.6 });
+          lb.push({ p: tip, t: st.to ? st.g + ' gate' : 'ψ = ' + ket(v), a: true, al: 'left', dx: 10 });
         },
       },
     };
@@ -756,7 +938,7 @@ main { position: relative; z-index: 2; }
       const { ctx, canvas, def } = it, w = canvas.width, h = canvas.height, d = it.dpr;
       if (!w || !h) return;
       if (!col) refresh();
-      const t = REDUCED ? 1.2 : now / 1000;
+      const t = now / 1000;
       if (it.dragX === null) { it.user += it.vel; it.vel *= 0.94; }
       const yaw = def.yaw + it.user + (REDUCED ? 0 : Math.sin(t * 0.45 + it.seed) * 0.2);
       const cw = Math.cos(yaw), sw = Math.sin(yaw), cp = Math.cos(it.pitch), sp = Math.sin(it.pitch);
@@ -808,11 +990,11 @@ main { position: relative; z-index: 2; }
         if (budget <= 0) break;
       }
 
-      // the moving part and the labels arrive once the drawing is nearly plotted
+      // the working part and the labels arrive once the drawing is nearly plotted
       const fade = clamp((plot - 0.8) / 0.2, 0, 1);
       if (fade > 0) {
         const moving = [], labels = def.labels.slice();
-        def.dyn(t, moving, labels);
+        def.dyn(REDUCED && it.auto ? 5.6 : t, moving, labels, it.state, it.auto);
         moving.forEach((line) => stroke(line, 1e9, fade));
         ctx.setLineDash([]);
         ctx.font = `500 ${Math.round(9.5 * d)}px "IBM Plex Mono", ui-monospace, monospace`;
@@ -835,11 +1017,12 @@ main { position: relative; z-index: 2; }
     }
     const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
 
-    function mount(canvas, delay = 0) {
+    // `ctl`, when given, is an empty element that receives this model's controls
+    function mount(canvas, delay = 0, ctl = null) {
       const def = MODELS[canvas.dataset.model];
       if (!def || items.has(canvas)) return;
       if (!def.lines) { def.lines = []; def.build(def.lines); def.nseg = def.lines.reduce((n, l) => n + l.p.length - 1, 0); }
-      const it = { canvas, ctx: canvas.getContext('2d'), def, dpr: 1, user: 0, vel: 0, pitch: 0.5, dragX: null, dragY: 0, moved: 0, visible: false, start: 0, seed: Math.random() * 6 };
+      const it = { canvas, ctx: canvas.getContext('2d'), def, state: def.init(), auto: true, dpr: 1, user: 0, vel: 0, pitch: 0.5, dragX: null, dragY: 0, moved: 0, visible: false, start: 0, seed: Math.random() * 6 };
       const size = () => {
         it.dpr = Math.min(window.devicePixelRatio || 1, 2);
         canvas.width = Math.round(canvas.clientWidth * it.dpr);
@@ -853,6 +1036,32 @@ main { position: relative; z-index: 2; }
         if (it.visible) { if (!it.start) it.start = performance.now() + delay; kick(); }
       }, { threshold: 0.15 });
       it.io.observe(canvas);
+
+      if (ctl) {
+        it.auto = false;
+        const k = document.createElement('span');
+        k.className = 'mono ctl__k';
+        k.textContent = 'Try it';
+        ctl.appendChild(k);
+        def.controls.forEach((c) => {
+          if (c.b) {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'btn ctl__b';
+            b.textContent = c.b;
+            b.addEventListener('click', () => c.f(it.state, performance.now() / 1000));
+            ctl.appendChild(b);
+          } else {
+            const l = document.createElement('label'), i = document.createElement('input');
+            l.className = 'mono ctl__r';
+            l.textContent = c.r;
+            i.type = 'range'; i.min = c.min; i.max = c.max; i.step = c.step; i.value = it.state[c.key];
+            i.addEventListener('input', () => { it.state[c.key] = +i.value; });
+            l.appendChild(i);
+            ctl.appendChild(l);
+          }
+        });
+      }
 
       canvas.addEventListener('pointerdown', (e) => {
         it.dragX = e.clientX; it.dragY = e.clientY; it.moved = 0; it.vel = 0;
@@ -888,7 +1097,6 @@ main { position: relative; z-index: 2; }
   const view = $('.view'), cards = $$('.det');
   const LETTERS = 'ABCD';
   let viewIdx = -1, pushed = false;
-  try { if (location.hash === '#detail') history.replaceState(null, '', location.pathname + location.search); } catch (err) { /* not allowed here */ }
 
   function renderDetail(i) {
     const c = cards[i], src = $('canvas.m3d', c);
@@ -899,7 +1107,7 @@ main { position: relative; z-index: 2; }
     view.innerHTML = `
       <button class="btn view__close" type="button" data-close>✕ Close</button>
       <div class="view__in">
-        <div class="det__fig panel view__fig"><span class="det__tag mono"><b>${LETTERS[i]}</b>Detail</span><canvas class="m3d" data-model="${src.dataset.model}" role="img" aria-label="${src.getAttribute('aria-label')}"></canvas><span class="det__drag mono" aria-hidden="true">↔ Drag</span></div>
+        <div class="det__fig panel view__fig"><span class="det__tag mono"><b>${LETTERS[i]}</b>Detail</span><canvas class="m3d" data-model="${src.dataset.model}" role="img" aria-label="${src.getAttribute('aria-label')}"></canvas><span class="det__drag mono" aria-hidden="true">↔ Drag</span><div class="ctl"></div></div>
         <div>
           <p class="mono view__k">${$('.det__k', c).textContent}</p>
           <h2>${$('h3', c).textContent}</h2>
@@ -918,7 +1126,7 @@ main { position: relative; z-index: 2; }
     viewIdx = i;
     document.body.classList.add('is-plotting');
     if (lenis) lenis.stop();
-    M3D.mount($('canvas.m3d', view), REDUCED ? 0 : 450);
+    M3D.mount($('canvas.m3d', view), REDUCED ? 0 : 450, $('.ctl', view));
     $('.view__close', view).focus({ preventScroll: true });
   }
   function hideDetail() {
@@ -927,22 +1135,31 @@ main { position: relative; z-index: 2; }
     view.hidden = true;
     view.innerHTML = '';
     viewIdx = -1;
+    if (hashIdx() >= 0) { try { history.replaceState(null, '', location.pathname + location.search); } catch (err) { /* not allowed here */ } }
     document.body.classList.remove('is-plotting');
     if (lenis) lenis.start();
   }
   const titleOf = (i) => $('h3', cards[i]).textContent;
+  // each project has its own link (#detail-a ... #detail-d), so one project can be shared
+  const hashIdx = () => { const m = /^#detail-([a-d])$/.exec(location.hash); return m ? 'abcd'.indexOf(m[1]) : -1; };
+  const setHash = (i) => { try { history.replaceState(null, '', '#detail-' + 'abcd'[i]); } catch (err) { /* not allowed here */ } };
   function openDetail(i) {
     wipeThen('DETAIL ' + LETTERS[i], titleOf(i), () => {
       renderDetail(i);
       // one history entry, so the phone's back button closes the sheet instead of leaving the page
-      if (!pushed) { pushed = true; location.hash = 'detail'; }
+      if (!pushed) { pushed = true; location.hash = 'detail-' + 'abcd'[i]; } else setHash(i);
     });
+  }
+  function stepDetail(i) {
+    wipeThen('DETAIL ' + LETTERS[i], titleOf(i), () => { renderDetail(i); setHash(i); });
   }
   function closeDetail() {
     if (pushed) history.back(); else wipeThen('SHEET 04 / 05', 'Details', hideDetail);
   }
   window.addEventListener('hashchange', () => {
-    if (location.hash !== '#detail' && viewIdx >= 0) { pushed = false; wipeThen('SHEET 04 / 05', 'Details', hideDetail); }
+    const i = hashIdx();
+    if (i < 0 && viewIdx >= 0) { pushed = false; wipeThen('SHEET 04 / 05', 'Details', hideDetail); }
+    else if (i >= 0 && i !== viewIdx) wipeThen('DETAIL ' + LETTERS[i], titleOf(i), () => renderDetail(i));
   });
   cards.forEach((c, i) => c.addEventListener('click', (e) => {
     const cv = e.target.closest('canvas');
@@ -952,9 +1169,20 @@ main { position: relative; z-index: 2; }
   view.addEventListener('click', (e) => {
     if (e.target.closest('[data-close]')) { closeDetail(); return; }
     const b = e.target.closest('[data-detail]');
-    if (b) { const i = +b.dataset.detail; wipeThen('DETAIL ' + LETTERS[i], titleOf(i), () => renderDetail(i)); }
+    if (b) stepDetail(+b.dataset.detail);
   });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && viewIdx >= 0) closeDetail(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey || /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+    if (viewIdx >= 0) {
+      if (e.key === 'Escape') closeDetail();
+      else if (e.key === 'ArrowRight') stepDetail((viewIdx + 1) % cards.length);
+      else if (e.key === 'ArrowLeft') stepDetail((viewIdx + cards.length - 1) % cards.length);
+      return;
+    }
+    // 1-5 jump to a sheet, P switches the paper
+    if (e.key >= '1' && e.key <= '5') { const a = $('[data-go][href="#' + sheets[+e.key - 1].id + '"]'); if (a) a.click(); }
+    else if (e.key === 'p' || e.key === 'P') $('.bar__paper').click();
+  });
 
   /* ---------- drag the model to rotate it ---------- */
   const stage = $('.cover__stick'), hint = $('.hint');
@@ -1108,7 +1336,7 @@ main { position: relative; z-index: 2; }
 
     function frame(now) {
       requestAnimationFrame(frame);
-      if (document.hidden) { t0 = now; return; }
+      if (document.hidden || viewIdx >= 0) { t0 = now; return; }
       time += Math.min((now - t0) / 1000, 0.05) * (REDUCED ? 0.2 : 1);
       t0 = now;
       const wide = aspect > 1;
@@ -1169,6 +1397,7 @@ main { position: relative; z-index: 2; }
     window.scrollTo(0, 0);
     try { initScroll(); } catch (err) { console.warn('Scroll effects unavailable:', err); }
     setSheet(0);
+    if (hashIdx() >= 0) setTimeout(() => renderDetail(hashIdx()), REDUCED ? 0 : 900);
     document.body.classList.remove('is-plotting');
     if (lenis) lenis.start();
     anime({ targets: plotEl, translateY: '-101%', duration: REDUCED ? 1 : 800, easing: 'easeInOutQuart', complete: () => plotEl.remove() });
